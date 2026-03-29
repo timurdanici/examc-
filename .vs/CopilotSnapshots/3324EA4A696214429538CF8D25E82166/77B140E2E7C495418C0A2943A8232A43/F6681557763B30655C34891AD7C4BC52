@@ -1,0 +1,200 @@
+﻿using exam.Services;
+using System;
+using System.Data;
+using System.IO;
+using System.Windows.Forms;
+
+namespace exam
+{
+    public partial class ReportsForm : Form
+    {
+        private ProductRepository _productRepo;
+
+        public ReportsForm()
+        {
+            InitializeComponent();
+            _productRepo = new ProductRepository();
+        }
+
+        private void ReportsForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading form: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Load categories into filter ComboBox
+        /// </summary>
+        private void LoadCategories()
+        {
+            try
+            {
+                DataTable dt = _productRepo.GetAllCategories();
+                cmbCategory.DataSource = dt;
+                cmbCategory.DisplayMember = "Category";
+                cmbCategory.ValueMember = "Category";
+                cmbCategory.Items.Insert(0, "All Categories");
+                cmbCategory.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading categories: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Generate Report Button Click Event
+        /// </summary>
+        private void btnGenerateReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt;
+
+                if (cmbCategory.SelectedIndex == 0)
+                {
+                    dt = _productRepo.GetAll();
+                }
+                else
+                {
+                    string category = cmbCategory.SelectedValue.ToString();
+                    dt = _productRepo.GetByCategory(category);
+                }
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No data found for the selected filter.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dgvReport.DataSource = null;
+                    return;
+                }
+
+                dgvReport.DataSource = dt;
+                dgvReport.AutoResizeColumns();
+                toolStripStatusLabel1.Text = $"Total Records: {dt.Rows.Count}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error generating report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Print Report Button Click Event
+        /// </summary>
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvReport.DataSource == null || dgvReport.RowCount == 0)
+                {
+                    MessageBox.Show("No data to print. Please generate a report first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                PrintDialog printDialog = new PrintDialog();
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    System.Drawing.Printing.PrintDocument printDoc = new System.Drawing.Printing.PrintDocument();
+                    printDoc.PrintPage += (s, ev) =>
+                    {
+                        string title = "Products Report";
+                        string content = "Report generated on: " + DateTime.Now.ToString();
+                        ev.Graphics.DrawString(title, new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold), 
+                            System.Drawing.Brushes.Black, 100, 50);
+                        ev.Graphics.DrawString(content, new System.Drawing.Font("Arial", 10), 
+                            System.Drawing.Brushes.Black, 100, 100);
+                        ev.Graphics.DrawString($"Total Records: {dgvReport.RowCount}", new System.Drawing.Font("Arial", 10), 
+                            System.Drawing.Brushes.Black, 100, 130);
+                    };
+                    printDoc.Print();
+                    MessageBox.Show("Report sent to printer.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error printing report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Export to PDF Button Click Event
+        /// </summary>
+        private void btnExportPDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvReport.DataSource == null || dgvReport.RowCount == 0)
+                {
+                    MessageBox.Show("No data to export. Please generate a report first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF Files (*.pdf)|*.pdf|Text Files (*.txt)|*.txt";
+                saveDialog.DefaultExt = "pdf";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveDialog.FileName;
+                    ExportToCSV(filePath);
+                    MessageBox.Show("Report exported successfully to: " + filePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error exporting report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Export DataGridView to CSV file
+        /// </summary>
+        private void ExportToCSV(string filePath)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    // Write headers
+                    for (int i = 0; i < dgvReport.Columns.Count; i++)
+                    {
+                        sw.Write(dgvReport.Columns[i].HeaderText);
+                        if (i < dgvReport.Columns.Count - 1)
+                            sw.Write(",");
+                    }
+                    sw.WriteLine();
+
+                    // Write data
+                    foreach (DataGridViewRow row in dgvReport.Rows)
+                    {
+                        for (int i = 0; i < dgvReport.Columns.Count; i++)
+                        {
+                            sw.Write(row.Cells[i].Value);
+                            if (i < dgvReport.Columns.Count - 1)
+                                sw.Write(",");
+                        }
+                        sw.WriteLine();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error exporting to CSV: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Close Button Click Event
+        /// </summary>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}

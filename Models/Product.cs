@@ -1,0 +1,31 @@
+using System;
+
+namespace exam.Models
+{
+    /// <summary>
+    /// Product model class
+    /// </summary>
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public int CategoryID { get; set; }
+        public int SupplierID { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public Product() { }
+
+        public Product(int productID, string productName, int categoryID, int supplierID, decimal price, int quantity, DateTime createdDate)
+        {
+            ProductID = productID;
+            ProductName = productName;
+            CategoryID = categoryID;
+            SupplierID = supplierID;
+            Price = price;
+            Quantity = quantity;
+            CreatedDate = createdDate;
+        }
+    }
+}

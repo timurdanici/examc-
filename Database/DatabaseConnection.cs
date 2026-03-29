@@ -1,0 +1,126 @@
+using MySql.Data.MySqlClient;
+using System;
+using System.Configuration;
+using System.Data;
+
+namespace exam.Database
+{
+    /// <summary>
+    /// Reusable database connection helper class for MySQL operations
+    /// </summary>
+    public class DatabaseConnection
+    {
+        private string _connectionString;
+        private MySqlConnection _connection;
+
+        public DatabaseConnection()
+        {
+            _connectionString = ConfigurationManager.ConnectionStrings["MySQLConnection"].ConnectionString;
+        }
+
+        /// <summary>
+        /// Opens connection to the database
+        /// </summary>
+        public void OpenConnection()
+        {
+            try
+            {
+                _connection = new MySqlConnection(_connectionString);
+                _connection.Open();
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Database connection error: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Closes the database connection
+        /// </summary>
+        public void CloseConnection()
+        {
+            try
+            {
+                if (_connection != null && _connection.State == ConnectionState.Open)
+                {
+                    _connection.Close();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error closing connection: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Executes a SELECT query and returns DataTable
+        /// </summary>
+        public DataTable ExecuteSelect(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                CloseConnection();
+                return dt;
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error executing SELECT query: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Executes INSERT, UPDATE, or DELETE query
+        /// </summary>
+        public bool ExecuteNonQuery(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+                int result = cmd.ExecuteNonQuery();
+                CloseConnection();
+                return result > 0;
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error executing non-query: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Executes a query and returns a scalar value (first row, first column)
+        /// </summary>
+        public object ExecuteScalar(string query, MySqlParameter[] parameters = null)
+        {
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+                object result = cmd.ExecuteScalar();
+                CloseConnection();
+                return result;
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error executing scalar query: " + ex.Message);
+            }
+        }
+    }
+}

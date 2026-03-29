@@ -1,0 +1,29 @@
+﻿-- Create Database
+CREATE DATABASE IF NOT EXISTS product_management;
+USE product_management;
+
+-- Create Products Table
+CREATE TABLE IF NOT EXISTS Products (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    Category VARCHAR(50) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Quantity INT NOT NULL,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert Sample Data
+INSERT INTO Products (ProductName, Category, Price, Quantity) VALUES
+('Laptop', 'Electronics', 999.99, 10),
+('Mouse', 'Electronics', 29.99, 50),
+('Keyboard', 'Electronics', 79.99, 30),
+('Monitor', 'Electronics', 299.99, 15),
+('Desk Chair', 'Furniture', 199.99, 20),
+('Office Desk', 'Furniture', 399.99, 8),
+('Table Lamp', 'Furniture', 49.99, 25),
+('Notebook', 'Stationery', 5.99, 100),
+('Pen Set', 'Stationery', 12.99, 60);
+
+-- Verify Data
+SELECT * FROM Products;
