@@ -2,9 +2,6 @@ using System;
 
 namespace exam.Models
 {
-    /// <summary>
-    /// Product model class
-    /// </summary>
     public class Product
     {
         public int ProductID { get; set; }

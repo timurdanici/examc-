@@ -1,0 +1,198 @@
+﻿using exam.Database;
+using exam.Models;
+using MySql.Data.MySqlClient;
+using System;
+using System.Data;
+
+namespace exam.Services
+{
+    
+    public class ProductRepository
+    {
+        private DatabaseConnection _db;
+
+        public ProductRepository()
+        {
+            _db = new DatabaseConnection();
+        }
+
+        
+        public DataTable GetAll()
+        {
+            try
+            {
+                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
+                                 p.Price, p.Quantity, p.CreatedDate 
+                                 FROM Products p
+                                 JOIN Categories c ON p.CategoryID = c.CategoryID
+                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
+                                 ORDER BY p.ProductID DESC";
+                return _db.ExecuteSelect(query);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving products: " + ex.Message);
+            }
+        }
+
+        
+        public bool Add(Product product)
+        {
+            try
+            {
+                string query = @"INSERT INTO Products (ProductName, CategoryID, SupplierID, Price, Quantity) 
+                                 VALUES (@name, @catId, @suppId, @price, @qty)";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@name", product.ProductName),
+                    new MySqlParameter("@catId", product.CategoryID),
+                    new MySqlParameter("@suppId", product.SupplierID),
+                    new MySqlParameter("@price", product.Price),
+                    new MySqlParameter("@qty", product.Quantity)
+                };
+                return _db.ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error adding product: " + ex.Message);
+            }
+        }
+
+        
+        public bool Update(Product product)
+        {
+            try
+            {
+                string query = @"UPDATE Products SET ProductName = @name, CategoryID = @catId, 
+                                 SupplierID = @suppId, Price = @price, Quantity = @qty 
+                                 WHERE ProductID = @id";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@id", product.ProductID),
+                    new MySqlParameter("@name", product.ProductName),
+                    new MySqlParameter("@catId", product.CategoryID),
+                    new MySqlParameter("@suppId", product.SupplierID),
+                    new MySqlParameter("@price", product.Price),
+                    new MySqlParameter("@qty", product.Quantity)
+                };
+                return _db.ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating product: " + ex.Message);
+            }
+        }
+
+        
+        public bool Delete(int productID)
+        {
+            try
+            {
+                string query = "DELETE FROM Products WHERE ProductID = @id";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@id", productID)
+                };
+                return _db.ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting product: " + ex.Message);
+            }
+        }
+
+        
+        public DataTable Search(string keyword)
+        {
+            try
+            {
+                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
+                                 p.Price, p.Quantity, p.CreatedDate 
+                                 FROM Products p
+                                 JOIN Categories c ON p.CategoryID = c.CategoryID
+                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
+                                 WHERE p.ProductName LIKE @keyword OR c.CategoryName LIKE @keyword 
+                                 OR s.SupplierName LIKE @keyword
+                                 ORDER BY p.ProductID DESC";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@keyword", "%" + keyword + "%")
+                };
+                return _db.ExecuteSelect(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error searching products: " + ex.Message);
+            }
+        }
+
+        
+        public DataTable GetByCategory(int categoryID)
+        {
+            try
+            {
+                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
+                                 p.Price, p.Quantity, p.CreatedDate 
+                                 FROM Products p
+                                 JOIN Categories c ON p.CategoryID = c.CategoryID
+                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
+                                 WHERE p.CategoryID = @catId ORDER BY p.ProductID DESC";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@catId", categoryID)
+                };
+                return _db.ExecuteSelect(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error filtering by category: " + ex.Message);
+            }
+        }
+
+        
+        public DataTable GetAllCategories()
+        {
+            try
+            {
+                string query = "SELECT CategoryID, CategoryName FROM Categories ORDER BY CategoryName";
+                return _db.ExecuteSelect(query);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving categories: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all suppliers for dropdown
+        /// </summary>
+        public DataTable GetAllSuppliers()
+        {
+            try
+            {
+                string query = "SELECT SupplierID, SupplierName FROM Suppliers ORDER BY SupplierName";
+                return _db.ExecuteSelect(query);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving suppliers: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get product by ID
+        /// </summary>
+        public DataTable GetByID(int productID)
+        {
+            try
+            {
+                string query = @"SELECT p.ProductID, p.ProductName, p.CategoryID, p.SupplierID, 
+                                 p.Price, p.Quantity, p.CreatedDate 
+                                 FROM Products p WHERE p.ProductID = @id";
+                MySqlParameter[] parameters = {
+                    new MySqlParameter("@id", productID)
+                };
+                return _db.ExecuteSelect(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving product: " + ex.Message);
+            }
+        }
+    }
+}

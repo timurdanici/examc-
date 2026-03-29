@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* LocalConnection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>00000000-0000-0000-0000-000000000000</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="CategoryDataSet">
+      <Query Language="xml">
+        <DataSetReference Name="DataSource1" />
+      </Query>
+      <Fields>
+        <Field Name="CategoryID">
+          <DataType>Integer</DataType>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CategoryName">
+          <DataType>String</DataType>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataType>String</DataType>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CreatedDate">
+          <DataType>String</DataType>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Tablix Name="Tablix1">
+        <TablixBody>
+          <TablixRowHierarchy>
+            <TablixMembers>
+              <TablixMember />
+              <TablixMember>
+                <Group Name="Details" />
+              </TablixMember>
+            </TablixMembers>
+          </TablixRowHierarchy>
+          <TablixColumnHierarchy>
+            <TablixMembers>
+              <TablixMember>
+                <TablixMembers>
+                  <TablixMember Header="CategoryID" />
+                  <TablixMember Header="CategoryName" />
+                  <TablixMember Header="Description" />
+                  <TablixMember Header="CreatedDate" />
+                </TablixMembers>
+              </TablixMember>
+            </TablixMembers>
+          </TablixColumnHierarchy>
+          <TablixCorner>
+            <TablixCornerItems />
+          </TablixCorner>
+        </TablixBody>
+        <TablixName>Tablix1</TablixName>
+        <Top>0.5cm</Top>
+        <Left>0.5cm</Left>
+        <Height>2cm</Height>
+        <Width>15cm</Width>
+        <ZIndex>1</ZIndex>
+        <Visibility Visibility="Visible" />
+      </Tablix>
+      <TextBox Name="Title">
+        <CanGrow>true</CanGrow>
+        <CanShrink>false</CanShrink>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Categories Summary Report</Value>
+                <Style>
+                  <FontSize>16pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0cm</Top>
+        <Left>0cm</Left>
+        <Height>0.5cm</Height>
+        <Width>18cm</Width>
+        <ZIndex>0</ZIndex>
+      </TextBox>
+    </ReportItems>
+    <Height>20cm</Height>
+  </Body>
+  <Width>18cm</Width>
+  <Page>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+    <LeftMargin>2cm</LeftMargin>
+    <RightMargin>2cm</RightMargin>
+    <TopMargin>2cm</TopMargin>
+    <BottomMargin>2cm</BottomMargin>
+  </Page>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>00000000-0000-0000-0000-000000000000</rd:ReportID>
+</Report>

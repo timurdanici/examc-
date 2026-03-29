@@ -6,9 +6,6 @@ using System.Data;
 
 namespace exam.Services
 {
-    /// <summary>
-    /// Repository class for Category CRUD operations
-    /// </summary>
     public class CategoryRepository
     {
         private DatabaseConnection _db;
@@ -18,9 +15,6 @@ namespace exam.Services
             _db = new DatabaseConnection();
         }
 
-        /// <summary>
-        /// Get all categories from database
-        /// </summary>
         public DataTable GetAll()
         {
             try
@@ -34,9 +28,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Add new category to database
-        /// </summary>
         public bool Add(Category category)
         {
             try
@@ -54,9 +45,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Update existing category
-        /// </summary>
         public bool Update(Category category)
         {
             try
@@ -75,9 +63,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Delete category by ID
-        /// </summary>
         public bool Delete(int categoryID)
         {
             try
@@ -94,9 +79,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Search categories by keyword
-        /// </summary>
         public DataTable Search(string keyword)
         {
             try

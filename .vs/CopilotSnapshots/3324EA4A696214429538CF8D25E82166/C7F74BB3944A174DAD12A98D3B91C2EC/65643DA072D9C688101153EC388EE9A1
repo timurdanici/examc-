@@ -1,0 +1,7 @@
+﻿@echo off
+REM Copy RDLC reports to output directory
+if not exist "bin\Debug\Reports" mkdir "bin\Debug\Reports"
+copy /Y "Reports\AllProducts.rdlc" "bin\Debug\Reports\"
+copy /Y "Reports\CategoriesSummary.rdlc" "bin\Debug\Reports\"
+copy /Y "Reports\SuppliersSummary.rdlc" "bin\Debug\Reports\"
+echo RDLC files copied successfully

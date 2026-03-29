@@ -1,3 +1,6 @@
+using System.Windows.Forms;
+using Microsoft.Reporting.WinForms;
+
 namespace exam
 {
     partial class Form1
@@ -19,6 +22,7 @@ namespace exam
             this.tabProducts = new System.Windows.Forms.TabPage();
             this.tabCategories = new System.Windows.Forms.TabPage();
             this.tabSuppliers = new System.Windows.Forms.TabPage();
+            this.tabReports = new System.Windows.Forms.TabPage();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.groupBoxProductDetails = new System.Windows.Forms.GroupBox();
             this.cmbProductSupplier = new System.Windows.Forms.ComboBox();
@@ -83,6 +87,13 @@ namespace exam
             this.groupBoxSupplierFilter = new System.Windows.Forms.GroupBox();
             this.txtSupplierSearch = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
+            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.groupBoxReportFilters = new System.Windows.Forms.GroupBox();
+            this.cmbReportType = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.btnGenerateReport = new System.Windows.Forms.Button();
+            this.groupBoxReportActions = new System.Windows.Forms.GroupBox();
+            this.btnExportReport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategories)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).BeginInit();
@@ -90,6 +101,7 @@ namespace exam
             this.tabProducts.SuspendLayout();
             this.tabCategories.SuspendLayout();
             this.tabSuppliers.SuspendLayout();
+            this.tabReports.SuspendLayout();
             this.groupBoxProductDetails.SuspendLayout();
             this.groupBoxProductOps.SuspendLayout();
             this.groupBoxProductFilter.SuspendLayout();
@@ -99,11 +111,14 @@ namespace exam
             this.groupBoxSupplierDetails.SuspendLayout();
             this.groupBoxSupplierOps.SuspendLayout();
             this.groupBoxSupplierFilter.SuspendLayout();
+            this.groupBoxReportFilters.SuspendLayout();
+            this.groupBoxReportActions.SuspendLayout();
             this.SuspendLayout();
             
             this.tabControlMain.Controls.Add(this.tabProducts);
             this.tabControlMain.Controls.Add(this.tabCategories);
             this.tabControlMain.Controls.Add(this.tabSuppliers);
+            this.tabControlMain.Controls.Add(this.tabReports);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
@@ -483,7 +498,56 @@ namespace exam
             this.txtSupplierSearch.Location = new System.Drawing.Point(15, 35);
             this.txtSupplierSearch.Size = new System.Drawing.Size(420, 20);
             this.txtSupplierSearch.TextChanged += new System.EventHandler(this.txtSupplierSearch_TextChanged);
-            
+
+            // REPORTS TAB
+            this.tabReports.Controls.Add(this.groupBoxReportActions);
+            this.tabReports.Controls.Add(this.groupBoxReportFilters);
+            this.tabReports.Controls.Add(this.reportViewer);
+            this.tabReports.Location = new System.Drawing.Point(4, 22);
+            this.tabReports.Name = "tabReports";
+            this.tabReports.Size = new System.Drawing.Size(992, 624);
+            this.tabReports.TabIndex = 3;
+            this.tabReports.Text = "Reports";
+            this.tabReports.UseVisualStyleBackColor = true;
+
+            this.reportViewer.Location = new System.Drawing.Point(12, 100);
+            this.reportViewer.Name = "reportViewer";
+            this.reportViewer.Size = new System.Drawing.Size(968, 500);
+            this.reportViewer.TabIndex = 1;
+
+            this.groupBoxReportFilters.Controls.Add(this.btnGenerateReport);
+            this.groupBoxReportFilters.Controls.Add(this.cmbReportType);
+            this.groupBoxReportFilters.Controls.Add(this.label23);
+            this.groupBoxReportFilters.Location = new System.Drawing.Point(12, 15);
+            this.groupBoxReportFilters.Size = new System.Drawing.Size(600, 75);
+            this.groupBoxReportFilters.Text = "Report Filters";
+
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(15, 25);
+            this.label23.Size = new System.Drawing.Size(75, 13);
+            this.label23.Text = "Report Type:";
+            this.cmbReportType.FormattingEnabled = true;
+            this.cmbReportType.Items.AddRange(new object[] { "All Products", "Products by Category", "Products by Supplier", "Categories Summary", "Suppliers Summary" });
+            this.cmbReportType.Location = new System.Drawing.Point(120, 22);
+            this.cmbReportType.Name = "cmbReportType";
+            this.cmbReportType.Size = new System.Drawing.Size(300, 21);
+            this.cmbReportType.TabIndex = 1;
+
+            this.btnGenerateReport.Location = new System.Drawing.Point(450, 20);
+            this.btnGenerateReport.Size = new System.Drawing.Size(120, 30);
+            this.btnGenerateReport.Text = "Generate";
+            this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
+
+            this.groupBoxReportActions.Location = new System.Drawing.Point(650, 15);
+            this.groupBoxReportActions.Size = new System.Drawing.Size(330, 75);
+            this.groupBoxReportActions.Text = "Actions";
+
+            this.btnExportReport.Location = new System.Drawing.Point(15, 30);
+            this.btnExportReport.Size = new System.Drawing.Size(120, 30);
+            this.btnExportReport.Text = "Export";
+            this.btnExportReport.Click += new System.EventHandler(this.btnExportReport_Click);
+            this.groupBoxReportActions.Controls.Add(this.btnExportReport);
+
             // FORM1
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -491,7 +555,6 @@ namespace exam
             this.Controls.Add(this.tabControlMain);
             this.Name = "Form1";
             this.Text = "Product Management System - Multi-Entity (3 Tables)";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategories)).EndInit();
@@ -500,6 +563,7 @@ namespace exam
             this.tabProducts.ResumeLayout(false);
             this.tabCategories.ResumeLayout(false);
             this.tabSuppliers.ResumeLayout(false);
+            this.tabReports.ResumeLayout(false);
             this.groupBoxProductDetails.ResumeLayout(false);
             this.groupBoxProductDetails.PerformLayout();
             this.groupBoxProductOps.ResumeLayout(false);
@@ -515,6 +579,9 @@ namespace exam
             this.groupBoxSupplierOps.ResumeLayout(false);
             this.groupBoxSupplierFilter.ResumeLayout(false);
             this.groupBoxSupplierFilter.PerformLayout();
+            this.groupBoxReportFilters.ResumeLayout(false);
+            this.groupBoxReportFilters.PerformLayout();
+            this.groupBoxReportActions.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
@@ -586,5 +653,13 @@ namespace exam
         private System.Windows.Forms.GroupBox groupBoxSupplierFilter;
         private System.Windows.Forms.TextBox txtSupplierSearch;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TabPage tabReports;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
+        private System.Windows.Forms.GroupBox groupBoxReportFilters;
+        private System.Windows.Forms.ComboBox cmbReportType;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button btnGenerateReport;
+        private System.Windows.Forms.GroupBox groupBoxReportActions;
+        private System.Windows.Forms.Button btnExportReport;
     }
 }

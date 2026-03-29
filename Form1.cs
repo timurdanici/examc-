@@ -3,6 +3,7 @@ using exam.Services;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using Microsoft.Reporting.WinForms;
 
 namespace exam
 {
@@ -30,6 +31,7 @@ namespace exam
                 LoadProductsTab();
                 LoadCategoriesTab();
                 LoadSuppliersTab();
+                LoadReportsTab();
             }
             catch (Exception ex)
             {
@@ -672,6 +674,175 @@ namespace exam
             {
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        #endregion
+
+        #region REPORTS
+
+        private void LoadReportsTab()
+        {
+            try
+            {
+                cmbReportType.SelectedIndex = 0;
+                reportViewer.ProcessingMode = ProcessingMode.Local;
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.Clear();
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnGenerateReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cmbReportType.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Select a report type", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string reportType = cmbReportType.SelectedItem.ToString();
+                string reportFile;
+                string dataSetName;
+                DataTable reportData;
+
+                GetReportConfiguration(reportType, out reportFile, out dataSetName, out reportData);
+
+                if (reportData == null || reportData.Rows.Count == 0)
+                {
+                    MessageBox.Show("No data available for this report", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                string reportPath = ResolveReportPath(reportFile);
+                if (!System.IO.File.Exists(reportPath))
+                {
+                    MessageBox.Show("RDLC file not found: " + reportPath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                reportViewer.Reset();
+                reportViewer.ProcessingMode = ProcessingMode.Local;
+                reportViewer.LocalReport.ReportPath = reportPath;
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataSetName, reportData));
+                reportViewer.LocalReport.Refresh();
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (reportViewer.LocalReport == null || reportViewer.LocalReport.DataSources.Count == 0)
+                {
+                    MessageBox.Show("Generate a report first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF files (*.pdf)|*.pdf|Excel files (*.xlsx)|*.xlsx|Word files (*.docx)|*.docx";
+                saveDialog.FileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+                if (saveDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                string extension = System.IO.Path.GetExtension(saveDialog.FileName).ToLowerInvariant();
+                string renderFormat = "PDF";
+
+                if (extension == ".xlsx")
+                {
+                    renderFormat = "EXCELOPENXML";
+                }
+                else if (extension == ".docx")
+                {
+                    renderFormat = "WORDOPENXML";
+                }
+
+                string mimeType;
+                string encoding;
+                string fileNameExtension;
+                string[] streamIds;
+                Warning[] warnings;
+
+                byte[] renderedBytes = reportViewer.LocalReport.Render(
+                    renderFormat,
+                    null,
+                    out mimeType,
+                    out encoding,
+                    out fileNameExtension,
+                    out streamIds,
+                    out warnings);
+
+                System.IO.File.WriteAllBytes(saveDialog.FileName, renderedBytes);
+                MessageBox.Show("Report exported successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GetReportConfiguration(string reportType, out string reportFile, out string dataSetName, out DataTable reportData)
+        {
+            reportFile = "AllProducts.rdlc";
+            dataSetName = "ProductDataSet";
+            reportData = _productRepo.GetAll();
+
+            switch (reportType)
+            {
+                case "All Products":
+                    reportFile = "AllProducts.rdlc";
+                    dataSetName = "ProductDataSet";
+                    reportData = _productRepo.GetAll();
+                    break;
+                case "Products by Category":
+                    reportFile = "AllProducts.rdlc";
+                    dataSetName = "ProductDataSet";
+                    reportData = _productRepo.GetAll();
+                    break;
+                case "Products by Supplier":
+                    reportFile = "AllProducts.rdlc";
+                    dataSetName = "ProductDataSet";
+                    reportData = _productRepo.GetAll();
+                    break;
+                case "Categories Summary":
+                    reportFile = "CategoriesSummary.rdlc";
+                    dataSetName = "CategoryDataSet";
+                    reportData = _categoryRepo.GetAll();
+                    break;
+                case "Suppliers Summary":
+                    reportFile = "SuppliersSummary.rdlc";
+                    dataSetName = "SupplierDataSet";
+                    reportData = _supplierRepo.GetAll();
+                    break;
+            }
+        }
+
+        private string ResolveReportPath(string reportFile)
+        {
+            string pathFromOutput = System.IO.Path.Combine(Application.StartupPath, "Reports", reportFile);
+            if (System.IO.File.Exists(pathFromOutput))
+            {
+                return pathFromOutput;
+            }
+
+            string pathFromProject = System.IO.Path.GetFullPath(
+                System.IO.Path.Combine(Application.StartupPath, "..", "..", "Reports", reportFile));
+
+            return pathFromProject;
         }
 
         #endregion

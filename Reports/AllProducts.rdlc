@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:DataSourceID>6f290f84-f48b-47f9-8e53-17b0f75bd70b</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="ProductDataSet">
+      <Fields>
+        <Field Name="ProductID"><DataField>ProductID</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="ProductName"><DataField>ProductName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="CategoryName"><DataField>CategoryName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="SupplierName"><DataField>SupplierName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Price"><DataField>Price</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="Quantity"><DataField>Quantity</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="CreatedDate"><DataField>CreatedDate</DataField><rd:TypeName>System.DateTime</rd:TypeName></Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="Title">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>All Products Report</Value>
+                    <Style><FontSize>12pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0cm</Top><Left>0cm</Left><Height>0.7cm</Height><Width>18cm</Width>
+            <Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Tablix Name="ProductsTablix">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>1.5cm</Width></TablixColumn>
+                <TablixColumn><Width>3.2cm</Width></TablixColumn>
+                <TablixColumn><Width>2.8cm</Width></TablixColumn>
+                <TablixColumn><Width>2.8cm</Width></TablixColumn>
+                <TablixColumn><Width>2cm</Width></TablixColumn>
+                <TablixColumn><Width>2cm</Width></TablixColumn>
+                <TablixColumn><Width>3cm</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.7cm</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="H1"><Paragraphs><Paragraph><TextRuns><TextRun><Value>ID</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H2"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Name</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H3"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Category</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H4"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Supplier</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H5"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Price</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H6"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Qty</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="H7"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Created</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><BackgroundColor>Gainsboro</BackgroundColor><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.65cm</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="D1"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!ProductID.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D2"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!ProductName.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D3"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!CategoryName.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D4"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!SupplierName.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D5"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Price.Value</Value><Style><Format>N2</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D6"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Quantity.Value</Value><Style /></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="D7"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!CreatedDate.Value</Value><Style><Format>yyyy-MM-dd</Format></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs><Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy><TablixMembers><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /></TablixMembers></TablixColumnHierarchy>
+            <TablixRowHierarchy><TablixMembers><TablixMember /><TablixMember><Group Name="Details" /></TablixMember></TablixMembers></TablixRowHierarchy>
+            <DataSetName>ProductDataSet</DataSetName>
+            <Top>1cm</Top><Left>0cm</Left><Height>1.35cm</Height><Width>17.3cm</Width>
+          </Tablix>
+        </ReportItems>
+        <Height>3cm</Height>
+        <Style />
+      </Body>
+      <Width>18cm</Width>
+      <Page>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>1cm</TopMargin>
+        <BottomMargin>1cm</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>3fe849b8-61d2-49ad-929d-8d67f64a9a37</rd:ReportID>
+</Report>

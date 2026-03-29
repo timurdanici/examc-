@@ -1,0 +1,679 @@
+﻿using exam.Models;
+using exam.Services;
+using System;
+using System.Data;
+using System.Windows.Forms;
+
+namespace exam
+{
+    public partial class Form1 : Form
+    {
+        private ProductRepository _productRepo;
+        private CategoryRepository _categoryRepo;
+        private SupplierRepository _supplierRepo;
+        private int _selectedProductID = -1;
+        private int _selectedCategoryID = -1;
+        private int _selectedSupplierID = -1;
+
+        public Form1()
+        {
+            InitializeComponent();
+            _productRepo = new ProductRepository();
+            _categoryRepo = new CategoryRepository();
+            _supplierRepo = new SupplierRepository();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadProductsTab();
+                LoadCategoriesTab();
+                LoadSuppliersTab();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading form: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #region PRODUCTS
+
+        private void LoadProductsTab()
+        {
+            try
+            {
+                LoadProducts();
+                LoadProductCategories();
+                LoadProductSuppliers();
+                ClearProductForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading products: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProducts()
+        {
+            try
+            {
+                DataTable dt = _productRepo.GetAll();
+                dgvProducts.DataSource = dt;
+                dgvProducts.AutoResizeColumns();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProductCategories()
+        {
+            try
+            {
+                DataTable dt = _categoryRepo.GetAll();
+                cmbProductCategory.DataSource = dt;
+                cmbProductCategory.DisplayMember = "CategoryName";
+                cmbProductCategory.ValueMember = "CategoryID";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProductSuppliers()
+        {
+            try
+            {
+                DataTable dt = _supplierRepo.GetAll();
+                cmbProductSupplier.DataSource = dt;
+                cmbProductSupplier.DisplayMember = "SupplierName";
+                cmbProductSupplier.ValueMember = "SupplierID";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearProductForm()
+        {
+            txtProductID.Clear();
+            txtProductName.Clear();
+            txtProductPrice.Clear();
+            txtProductQuantity.Clear();
+            txtProductCreatedDate.Clear();
+            txtProductSearch.Clear();
+            cmbProductCategory.SelectedIndex = -1;
+            cmbProductSupplier.SelectedIndex = -1;
+            _selectedProductID = -1;
+        }
+
+        private bool ValidateProductInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+            {
+                MessageBox.Show("Enter product name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (cmbProductCategory.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select category", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (cmbProductSupplier.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select supplier", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (!decimal.TryParse(txtProductPrice.Text, out decimal price) || price <= 0)
+            {
+                MessageBox.Show("Invalid price", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (!int.TryParse(txtProductQuantity.Text, out int quantity) || quantity < 0)
+            {
+                MessageBox.Show("Invalid quantity", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void btnProductAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateProductInputs()) return;
+
+                Product product = new Product
+                {
+                    ProductName = txtProductName.Text,
+                    CategoryID = (int)cmbProductCategory.SelectedValue,
+                    SupplierID = (int)cmbProductSupplier.SelectedValue,
+                    Price = decimal.Parse(txtProductPrice.Text),
+                    Quantity = int.Parse(txtProductQuantity.Text)
+                };
+
+                if (_productRepo.Add(product))
+                {
+                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadProductsTab();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnProductUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedProductID == -1)
+                {
+                    MessageBox.Show("Select a product", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (!ValidateProductInputs()) return;
+
+                Product product = new Product
+                {
+                    ProductID = _selectedProductID,
+                    ProductName = txtProductName.Text,
+                    CategoryID = (int)cmbProductCategory.SelectedValue,
+                    SupplierID = (int)cmbProductSupplier.SelectedValue,
+                    Price = decimal.Parse(txtProductPrice.Text),
+                    Quantity = int.Parse(txtProductQuantity.Text)
+                };
+
+                if (_productRepo.Update(product))
+                {
+                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadProductsTab();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnProductDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedProductID == -1)
+                {
+                    MessageBox.Show("Select a product", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (_productRepo.Delete(_selectedProductID))
+                    {
+                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadProductsTab();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnProductRefresh_Click(object sender, EventArgs e)
+        {
+            LoadProductsTab();
+        }
+
+        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = dgvProducts.Rows[e.RowIndex];
+                    _selectedProductID = (int)row.Cells["ProductID"].Value;
+                    txtProductID.Text = _selectedProductID.ToString();
+                    txtProductName.Text = row.Cells["ProductName"].Value.ToString();
+                    cmbProductCategory.Text = row.Cells["CategoryName"].Value.ToString();
+                    cmbProductSupplier.Text = row.Cells["SupplierName"].Value.ToString();
+                    txtProductPrice.Text = row.Cells["Price"].Value.ToString();
+                    txtProductQuantity.Text = row.Cells["Quantity"].Value.ToString();
+                    txtProductCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtProductSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtProductSearch.Text))
+                {
+                    LoadProducts();
+                }
+                else
+                {
+                    DataTable dt = _productRepo.Search(txtProductSearch.Text);
+                    dgvProducts.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region CATEGORIES
+
+        private void LoadCategoriesTab()
+        {
+            try
+            {
+                LoadCategories();
+                ClearCategoryForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading categories: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCategories()
+        {
+            try
+            {
+                DataTable dt = _categoryRepo.GetAll();
+                dgvCategories.DataSource = dt;
+                dgvCategories.AutoResizeColumns();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearCategoryForm()
+        {
+            txtCategoryID.Clear();
+            txtCategoryName.Clear();
+            txtCategoryDesc.Clear();
+            txtCategoryCreatedDate.Clear();
+            txtCategorySearch.Clear();
+            _selectedCategoryID = -1;
+        }
+
+        private bool ValidateCategoryInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
+            {
+                MessageBox.Show("Enter category name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void btnCategoryAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateCategoryInputs()) return;
+
+                Category category = new Category
+                {
+                    CategoryName = txtCategoryName.Text,
+                    Description = txtCategoryDesc.Text
+                };
+
+                if (_categoryRepo.Add(category))
+                {
+                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadCategoriesTab();
+                    LoadProductCategories();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCategoryUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedCategoryID == -1)
+                {
+                    MessageBox.Show("Select a category", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (!ValidateCategoryInputs()) return;
+
+                Category category = new Category
+                {
+                    CategoryID = _selectedCategoryID,
+                    CategoryName = txtCategoryName.Text,
+                    Description = txtCategoryDesc.Text
+                };
+
+                if (_categoryRepo.Update(category))
+                {
+                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadCategoriesTab();
+                    LoadProductCategories();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCategoryDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedCategoryID == -1)
+                {
+                    MessageBox.Show("Select a category", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (_categoryRepo.Delete(_selectedCategoryID))
+                    {
+                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadCategoriesTab();
+                        LoadProductCategories();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCategoryRefresh_Click(object sender, EventArgs e)
+        {
+            LoadCategoriesTab();
+        }
+
+        private void dgvCategories_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = dgvCategories.Rows[e.RowIndex];
+                    _selectedCategoryID = (int)row.Cells["CategoryID"].Value;
+                    txtCategoryID.Text = _selectedCategoryID.ToString();
+                    txtCategoryName.Text = row.Cells["CategoryName"].Value.ToString();
+                    txtCategoryDesc.Text = row.Cells["Description"].Value?.ToString() ?? "";
+                    txtCategoryCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtCategorySearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtCategorySearch.Text))
+                {
+                    LoadCategories();
+                }
+                else
+                {
+                    DataTable dt = _categoryRepo.Search(txtCategorySearch.Text);
+                    dgvCategories.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        #region SUPPLIERS
+
+        private void LoadSuppliersTab()
+        {
+            try
+            {
+                LoadSuppliers();
+                ClearSupplierForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading suppliers: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadSuppliers()
+        {
+            try
+            {
+                DataTable dt = _supplierRepo.GetAll();
+                dgvSuppliers.DataSource = dt;
+                dgvSuppliers.AutoResizeColumns();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearSupplierForm()
+        {
+            txtSupplierID.Clear();
+            txtSupplierName.Clear();
+            txtSupplierContact.Clear();
+            txtSupplierEmail.Clear();
+            txtSupplierPhone.Clear();
+            txtSupplierCreatedDate.Clear();
+            txtSupplierSearch.Clear();
+            _selectedSupplierID = -1;
+        }
+
+        private bool ValidateSupplierInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtSupplierName.Text))
+            {
+                MessageBox.Show("Enter supplier name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void btnSupplierAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateSupplierInputs()) return;
+
+                Supplier supplier = new Supplier
+                {
+                    SupplierName = txtSupplierName.Text,
+                    ContactPerson = txtSupplierContact.Text,
+                    Email = txtSupplierEmail.Text,
+                    Phone = txtSupplierPhone.Text
+                };
+
+                if (_supplierRepo.Add(supplier))
+                {
+                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadSuppliersTab();
+                    LoadProductSuppliers();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSupplierUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedSupplierID == -1)
+                {
+                    MessageBox.Show("Select a supplier", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (!ValidateSupplierInputs()) return;
+
+                Supplier supplier = new Supplier
+                {
+                    SupplierID = _selectedSupplierID,
+                    SupplierName = txtSupplierName.Text,
+                    ContactPerson = txtSupplierContact.Text,
+                    Email = txtSupplierEmail.Text,
+                    Phone = txtSupplierPhone.Text
+                };
+
+                if (_supplierRepo.Update(supplier))
+                {
+                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadSuppliersTab();
+                    LoadProductSuppliers();
+                }
+                else
+                {
+                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSupplierDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_selectedSupplierID == -1)
+                {
+                    MessageBox.Show("Select a supplier", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (_supplierRepo.Delete(_selectedSupplierID))
+                    {
+                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadSuppliersTab();
+                        LoadProductSuppliers();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSupplierRefresh_Click(object sender, EventArgs e)
+        {
+            LoadSuppliersTab();
+        }
+
+        private void dgvSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = dgvSuppliers.Rows[e.RowIndex];
+                    _selectedSupplierID = (int)row.Cells["SupplierID"].Value;
+                    txtSupplierID.Text = _selectedSupplierID.ToString();
+                    txtSupplierName.Text = row.Cells["SupplierName"].Value.ToString();
+                    txtSupplierContact.Text = row.Cells["ContactPerson"].Value?.ToString() ?? "";
+                    txtSupplierEmail.Text = row.Cells["Email"].Value?.ToString() ?? "";
+                    txtSupplierPhone.Text = row.Cells["Phone"].Value?.ToString() ?? "";
+                    txtSupplierCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtSupplierSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtSupplierSearch.Text))
+                {
+                    LoadSuppliers();
+                }
+                else
+                {
+                    DataTable dt = _supplierRepo.Search(txtSupplierSearch.Text);
+                    dgvSuppliers.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+    }
+}

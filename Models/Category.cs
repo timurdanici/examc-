@@ -2,9 +2,6 @@ using System;
 
 namespace exam.Models
 {
-    /// <summary>
-    /// Category model class
-    /// </summary>
     public class Category
     {
         public int CategoryID { get; set; }

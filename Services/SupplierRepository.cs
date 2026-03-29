@@ -6,9 +6,6 @@ using System.Data;
 
 namespace exam.Services
 {
-    /// <summary>
-    /// Repository class for Supplier CRUD operations
-    /// </summary>
     public class SupplierRepository
     {
         private DatabaseConnection _db;
@@ -18,9 +15,6 @@ namespace exam.Services
             _db = new DatabaseConnection();
         }
 
-        /// <summary>
-        /// Get all suppliers from database
-        /// </summary>
         public DataTable GetAll()
         {
             try
@@ -34,9 +28,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Add new supplier to database
-        /// </summary>
         public bool Add(Supplier supplier)
         {
             try
@@ -56,9 +47,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Update existing supplier
-        /// </summary>
         public bool Update(Supplier supplier)
         {
             try
@@ -79,9 +67,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Delete supplier by ID
-        /// </summary>
         public bool Delete(int supplierID)
         {
             try
@@ -98,9 +83,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Search suppliers by keyword
-        /// </summary>
         public DataTable Search(string keyword)
         {
             try

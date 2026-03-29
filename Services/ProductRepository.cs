@@ -6,9 +6,6 @@ using System.Data;
 
 namespace exam.Services
 {
-    /// <summary>
-    /// Repository class for Product CRUD operations
-    /// </summary>
     public class ProductRepository
     {
         private DatabaseConnection _db;
@@ -18,9 +15,6 @@ namespace exam.Services
             _db = new DatabaseConnection();
         }
 
-        /// <summary>
-        /// Get all products from database with category and supplier names
-        /// </summary>
         public DataTable GetAll()
         {
             try
@@ -39,9 +33,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Add new product to database
-        /// </summary>
         public bool Add(Product product)
         {
             try
@@ -63,9 +54,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Update existing product
-        /// </summary>
         public bool Update(Product product)
         {
             try
@@ -89,9 +77,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Delete product by ID
-        /// </summary>
         public bool Delete(int productID)
         {
             try
@@ -108,9 +93,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Search products by keyword
-        /// </summary>
         public DataTable Search(string keyword)
         {
             try
@@ -134,9 +116,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Get products by category
-        /// </summary>
         public DataTable GetByCategory(int categoryID)
         {
             try
@@ -158,9 +137,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Get all categories for dropdown
-        /// </summary>
         public DataTable GetAllCategories()
         {
             try
@@ -174,9 +150,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Get all suppliers for dropdown
-        /// </summary>
         public DataTable GetAllSuppliers()
         {
             try
@@ -190,9 +163,6 @@ namespace exam.Services
             }
         }
 
-        /// <summary>
-        /// Get product by ID
-        /// </summary>
         public DataTable GetByID(int productID)
         {
             try

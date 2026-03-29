@@ -5,9 +5,6 @@ using System.Data;
 
 namespace exam.Database
 {
-    /// <summary>
-    /// Reusable database connection helper class for MySQL operations
-    /// </summary>
     public class DatabaseConnection
     {
         private string _connectionString;
@@ -18,9 +15,6 @@ namespace exam.Database
             _connectionString = ConfigurationManager.ConnectionStrings["MySQLConnection"].ConnectionString;
         }
 
-        /// <summary>
-        /// Opens connection to the database
-        /// </summary>
         public void OpenConnection()
         {
             try
@@ -34,9 +28,6 @@ namespace exam.Database
             }
         }
 
-        /// <summary>
-        /// Closes the database connection
-        /// </summary>
         public void CloseConnection()
         {
             try
@@ -52,9 +43,6 @@ namespace exam.Database
             }
         }
 
-        /// <summary>
-        /// Executes a SELECT query and returns DataTable
-        /// </summary>
         public DataTable ExecuteSelect(string query, MySqlParameter[] parameters = null)
         {
             try
@@ -77,9 +65,6 @@ namespace exam.Database
             }
         }
 
-        /// <summary>
-        /// Executes INSERT, UPDATE, or DELETE query
-        /// </summary>
         public bool ExecuteNonQuery(string query, MySqlParameter[] parameters = null)
         {
             try
@@ -100,9 +85,6 @@ namespace exam.Database
             }
         }
 
-        /// <summary>
-        /// Executes a query and returns a scalar value (first row, first column)
-        /// </summary>
         public object ExecuteScalar(string query, MySqlParameter[] parameters = null)
         {
             try
