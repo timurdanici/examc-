@@ -9,670 +9,483 @@ namespace exam
 {
     public partial class Form1 : Form
     {
-        private ProductRepository _productRepo;
-        private CategoryRepository _categoryRepo;
-        private SupplierRepository _supplierRepo;
-        private int _selectedProductID = -1;
-        private int _selectedCategoryID = -1;
-        private int _selectedSupplierID = -1;
+        private ClientRepository _clientRepo;
+        private CarRepository _carRepo;
+        private int _selectedClientID = -1;
+        private int _selectedCarID = -1;
 
         public Form1()
         {
             InitializeComponent();
-            _productRepo = new ProductRepository();
-            _categoryRepo = new CategoryRepository();
-            _supplierRepo = new SupplierRepository();
+            _clientRepo = new ClientRepository();
+            _carRepo = new CarRepository();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             try
             {
-                LoadProductsTab();
-                LoadCategoriesTab();
-                LoadSuppliersTab();
+                LoadClientsTab();
+                LoadCarsTab();
                 LoadReportsTab();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading form: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка загрузки формы: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        #region PRODUCTS
+        #region CLIENTS
 
-        private void LoadProductsTab()
+        private void LoadClientsTab()
         {
             try
             {
-                LoadProducts();
-                LoadProductCategories();
-                LoadProductSuppliers();
-                ClearProductForm();
+                LoadClients();
+                ClearClientForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading products: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка загрузки клиентов: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadProducts()
+        private void LoadClients()
         {
             try
             {
-                DataTable dt = _productRepo.GetAll();
-                dgvProducts.DataSource = dt;
-                dgvProducts.AutoResizeColumns();
+                DataTable dt = _clientRepo.GetAll();
+                dgvClients.DataSource = dt;
+                dgvClients.AutoResizeColumns();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadProductCategories()
+        private void ClearClientForm()
         {
-            try
-            {
-                DataTable dt = _categoryRepo.GetAll();
-                cmbProductCategory.DataSource = dt;
-                cmbProductCategory.DisplayMember = "CategoryName";
-                cmbProductCategory.ValueMember = "CategoryID";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            txtClientID.Clear();
+            txtClientSurname.Clear();
+            txtClientName.Clear();
+            txtClientPhone.Clear();
+            txtClientAddress.Clear();
+            txtClientSearch.Clear();
+            _selectedClientID = -1;
         }
 
-        private void LoadProductSuppliers()
+        private bool ValidateClientInputs()
         {
-            try
+            if (string.IsNullOrWhiteSpace(txtClientSurname.Text))
             {
-                DataTable dt = _supplierRepo.GetAll();
-                cmbProductSupplier.DataSource = dt;
-                cmbProductSupplier.DisplayMember = "SupplierName";
-                cmbProductSupplier.ValueMember = "SupplierID";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ClearProductForm()
-        {
-            txtProductID.Clear();
-            txtProductName.Clear();
-            txtProductPrice.Clear();
-            txtProductQuantity.Clear();
-            txtProductCreatedDate.Clear();
-            txtProductSearch.Clear();
-            cmbProductCategory.SelectedIndex = -1;
-            cmbProductSupplier.SelectedIndex = -1;
-            _selectedProductID = -1;
-        }
-
-        private bool ValidateProductInputs()
-        {
-            if (string.IsNullOrWhiteSpace(txtProductName.Text))
-            {
-                MessageBox.Show("Enter product name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите фамилию", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (cmbProductCategory.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(txtClientName.Text))
             {
-                MessageBox.Show("Select category", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите имя", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (cmbProductSupplier.SelectedIndex == -1)
+            if (string.IsNullOrWhiteSpace(txtClientPhone.Text))
             {
-                MessageBox.Show("Select supplier", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите телефон", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            if (!decimal.TryParse(txtProductPrice.Text, out decimal price) || price <= 0)
+            if (string.IsNullOrWhiteSpace(txtClientAddress.Text))
             {
-                MessageBox.Show("Invalid price", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (!int.TryParse(txtProductQuantity.Text, out int quantity) || quantity < 0)
-            {
-                MessageBox.Show("Invalid quantity", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите адрес", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
         }
 
-        private void btnProductAdd_Click(object sender, EventArgs e)
+        private void btnClientAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!ValidateProductInputs()) return;
+                if (!ValidateClientInputs()) return;
 
-                Product product = new Product
+                Client client = new Client
                 {
-                    ProductName = txtProductName.Text,
-                    CategoryID = (int)cmbProductCategory.SelectedValue,
-                    SupplierID = (int)cmbProductSupplier.SelectedValue,
-                    Price = decimal.Parse(txtProductPrice.Text),
-                    Quantity = int.Parse(txtProductQuantity.Text)
+                    Surname = txtClientSurname.Text.Trim(),
+                    Name = txtClientName.Text.Trim(),
+                    Phonenumber = txtClientPhone.Text.Trim(),
+                    Address = txtClientAddress.Text.Trim()
                 };
 
-                if (_productRepo.Add(product))
+                if (_clientRepo.Add(client))
                 {
-                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadProductsTab();
+                    MessageBox.Show("Клиент добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadClientsTab();
+                    LoadCarClients();
                 }
                 else
                 {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось добавить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnProductUpdate_Click(object sender, EventArgs e)
+        private void btnClientUpdate_Click(object sender, EventArgs e)
         {
             try
             {
-                if (_selectedProductID == -1)
+                if (_selectedClientID == -1)
                 {
-                    MessageBox.Show("Select a product", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Выберите клиента", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!ValidateProductInputs()) return;
+                if (!ValidateClientInputs()) return;
 
-                Product product = new Product
+                Client client = new Client
                 {
-                    ProductID = _selectedProductID,
-                    ProductName = txtProductName.Text,
-                    CategoryID = (int)cmbProductCategory.SelectedValue,
-                    SupplierID = (int)cmbProductSupplier.SelectedValue,
-                    Price = decimal.Parse(txtProductPrice.Text),
-                    Quantity = int.Parse(txtProductQuantity.Text)
+                    Id_client = _selectedClientID,
+                    Surname = txtClientSurname.Text.Trim(),
+                    Name = txtClientName.Text.Trim(),
+                    Phonenumber = txtClientPhone.Text.Trim(),
+                    Address = txtClientAddress.Text.Trim()
                 };
 
-                if (_productRepo.Update(product))
+                if (_clientRepo.Update(client))
                 {
-                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadProductsTab();
+                    MessageBox.Show("Данные обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadClientsTab();
+                    LoadCarClients();
                 }
                 else
                 {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось обновить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnProductDelete_Click(object sender, EventArgs e)
+        private void btnClientDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                if (_selectedProductID == -1)
+                if (_selectedClientID == -1)
                 {
-                    MessageBox.Show("Select a product", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Выберите клиента", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить клиента?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_productRepo.Delete(_selectedProductID))
+                    if (_clientRepo.Delete(_selectedClientID))
                     {
-                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadProductsTab();
+                        MessageBox.Show("Клиент удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadClientsTab();
+                        LoadCarClients();
                     }
                     else
                     {
-                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Не удалось удалить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnProductRefresh_Click(object sender, EventArgs e)
+        private void btnClientRefresh_Click(object sender, EventArgs e)
         {
-            LoadProductsTab();
+            LoadClientsTab();
         }
 
-        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnClientClear_Click(object sender, EventArgs e)
+        {
+            ClearClientForm();
+        }
+
+        private void dgvClients_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 if (e.RowIndex >= 0)
                 {
-                    DataGridViewRow row = dgvProducts.Rows[e.RowIndex];
-                    _selectedProductID = (int)row.Cells["ProductID"].Value;
-                    txtProductID.Text = _selectedProductID.ToString();
-                    txtProductName.Text = row.Cells["ProductName"].Value.ToString();
-                    cmbProductCategory.Text = row.Cells["CategoryName"].Value.ToString();
-                    cmbProductSupplier.Text = row.Cells["SupplierName"].Value.ToString();
-                    txtProductPrice.Text = row.Cells["Price"].Value.ToString();
-                    txtProductQuantity.Text = row.Cells["Quantity"].Value.ToString();
-                    txtProductCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
+                    DataGridViewRow row = dgvClients.Rows[e.RowIndex];
+                    _selectedClientID = Convert.ToInt32(row.Cells["Id_client"].Value);
+                    txtClientID.Text = _selectedClientID.ToString();
+                    txtClientSurname.Text = row.Cells["Surname"].Value?.ToString() ?? "";
+                    txtClientName.Text = row.Cells["Name"].Value?.ToString() ?? "";
+                    txtClientPhone.Text = row.Cells["Phonenumber"].Value?.ToString() ?? "";
+                    txtClientAddress.Text = row.Cells["Address"].Value?.ToString() ?? "";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void txtProductSearch_TextChanged(object sender, EventArgs e)
+        private void txtClientSearch_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtProductSearch.Text))
+                if (string.IsNullOrWhiteSpace(txtClientSearch.Text))
                 {
-                    LoadProducts();
+                    LoadClients();
                 }
                 else
                 {
-                    DataTable dt = _productRepo.Search(txtProductSearch.Text);
-                    dgvProducts.DataSource = dt;
+                    DataTable dt = _clientRepo.Search(txtClientSearch.Text);
+                    dgvClients.DataSource = dt;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         #endregion
 
-        #region CATEGORIES
+        #region CARS
 
-        private void LoadCategoriesTab()
+        private void LoadCarsTab()
         {
             try
             {
-                LoadCategories();
-                ClearCategoryForm();
+                LoadCars();
+                LoadCarClients();
+                ClearCarForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading categories: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка загрузки автомобилей: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadCategories()
+        private void LoadCars()
         {
             try
             {
-                DataTable dt = _categoryRepo.GetAll();
-                dgvCategories.DataSource = dt;
-                dgvCategories.AutoResizeColumns();
+                DataTable dt = _carRepo.GetAll();
+                dgvCars.DataSource = dt;
+                dgvCars.AutoResizeColumns();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void ClearCategoryForm()
+        private void LoadCarClients()
         {
-            txtCategoryID.Clear();
-            txtCategoryName.Clear();
-            txtCategoryDesc.Clear();
-            txtCategoryCreatedDate.Clear();
-            txtCategorySearch.Clear();
-            _selectedCategoryID = -1;
+            try
+            {
+                DataTable dt = _clientRepo.GetAll();
+                cmbCarClient.DataSource = dt;
+                cmbCarClient.DisplayMember = "Surname";
+                cmbCarClient.ValueMember = "Id_client";
+                cmbCarClient.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private bool ValidateCategoryInputs()
+        private void ClearCarForm()
         {
-            if (string.IsNullOrWhiteSpace(txtCategoryName.Text))
+            txtCarID.Clear();
+            txtCarBrand.Clear();
+            txtCarModel.Clear();
+            txtCarYear.Clear();
+            txtCarGosNumber.Clear();
+            txtCarSearch.Clear();
+            cmbCarClient.SelectedIndex = -1;
+            _selectedCarID = -1;
+        }
+
+        private bool ValidateCarInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtCarBrand.Text))
             {
-                MessageBox.Show("Enter category name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите марку", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtCarModel.Text))
+            {
+                MessageBox.Show("Введите модель", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (!int.TryParse(txtCarYear.Text, out int year) || year < 1900 || year > DateTime.Now.Year)
+            {
+                MessageBox.Show("Введите корректный год выпуска", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtCarGosNumber.Text))
+            {
+                MessageBox.Show("Введите государственный номер", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (cmbCarClient.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите клиента", "Проверка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
         }
 
-        private void btnCategoryAdd_Click(object sender, EventArgs e)
+        private void btnCarAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!ValidateCategoryInputs()) return;
+                if (!ValidateCarInputs()) return;
 
-                Category category = new Category
+                Car car = new Car
                 {
-                    CategoryName = txtCategoryName.Text,
-                    Description = txtCategoryDesc.Text
+                    Brand = txtCarBrand.Text.Trim(),
+                    Model = txtCarModel.Text.Trim(),
+                    Release_Year = new DateTime(int.Parse(txtCarYear.Text), 1, 1),
+                    Gos_number = txtCarGosNumber.Text.Trim(),
+                    Id_Client = (int)cmbCarClient.SelectedValue
                 };
 
-                if (_categoryRepo.Add(category))
+                if (_carRepo.Add(car))
                 {
-                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadCategoriesTab();
-                    LoadProductCategories();
+                    MessageBox.Show("Автомобиль добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadCarsTab();
                 }
                 else
                 {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось добавить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnCategoryUpdate_Click(object sender, EventArgs e)
+        private void btnCarUpdate_Click(object sender, EventArgs e)
         {
             try
             {
-                if (_selectedCategoryID == -1)
+                if (_selectedCarID == -1)
                 {
-                    MessageBox.Show("Select a category", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Выберите автомобиль", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!ValidateCategoryInputs()) return;
+                if (!ValidateCarInputs()) return;
 
-                Category category = new Category
+                Car car = new Car
                 {
-                    CategoryID = _selectedCategoryID,
-                    CategoryName = txtCategoryName.Text,
-                    Description = txtCategoryDesc.Text
+                    Id_car = _selectedCarID,
+                    Brand = txtCarBrand.Text.Trim(),
+                    Model = txtCarModel.Text.Trim(),
+                    Release_Year = new DateTime(int.Parse(txtCarYear.Text), 1, 1),
+                    Gos_number = txtCarGosNumber.Text.Trim(),
+                    Id_Client = (int)cmbCarClient.SelectedValue
                 };
 
-                if (_categoryRepo.Update(category))
+                if (_carRepo.Update(car))
                 {
-                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadCategoriesTab();
-                    LoadProductCategories();
+                    MessageBox.Show("Данные обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadCarsTab();
                 }
                 else
                 {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось обновить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnCategoryDelete_Click(object sender, EventArgs e)
+        private void btnCarDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                if (_selectedCategoryID == -1)
+                if (_selectedCarID == -1)
                 {
-                    MessageBox.Show("Select a category", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Выберите автомобиль", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить автомобиль?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (_categoryRepo.Delete(_selectedCategoryID))
+                    if (_carRepo.Delete(_selectedCarID))
                     {
-                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadCategoriesTab();
-                        LoadProductCategories();
+                        MessageBox.Show("Автомобиль удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadCarsTab();
                     }
                     else
                     {
-                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Не удалось удалить", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnCategoryRefresh_Click(object sender, EventArgs e)
+        private void btnCarRefresh_Click(object sender, EventArgs e)
         {
-            LoadCategoriesTab();
+            LoadCarsTab();
         }
 
-        private void dgvCategories_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnCarClear_Click(object sender, EventArgs e)
+        {
+            ClearCarForm();
+        }
+
+        private void dgvCars_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 if (e.RowIndex >= 0)
                 {
-                    DataGridViewRow row = dgvCategories.Rows[e.RowIndex];
-                    _selectedCategoryID = (int)row.Cells["CategoryID"].Value;
-                    txtCategoryID.Text = _selectedCategoryID.ToString();
-                    txtCategoryName.Text = row.Cells["CategoryName"].Value.ToString();
-                    txtCategoryDesc.Text = row.Cells["Description"].Value?.ToString() ?? "";
-                    txtCategoryCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
+                    DataGridViewRow row = dgvCars.Rows[e.RowIndex];
+                    _selectedCarID = Convert.ToInt32(row.Cells["Id_car"].Value);
+                    txtCarID.Text = _selectedCarID.ToString();
+                    txtCarBrand.Text = row.Cells["Brand"].Value?.ToString() ?? "";
+                    txtCarModel.Text = row.Cells["Model"].Value?.ToString() ?? "";
+                    txtCarYear.Text = row.Cells["Release_Year"].Value?.ToString() ?? "";
+                    txtCarGosNumber.Text = row.Cells["Gos_number"].Value?.ToString() ?? "";
+                    int clientId = Convert.ToInt32(row.Cells["Id_Client"].Value);
+                    cmbCarClient.SelectedValue = clientId;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void txtCategorySearch_TextChanged(object sender, EventArgs e)
+        private void txtCarSearch_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtCategorySearch.Text))
+                if (string.IsNullOrWhiteSpace(txtCarSearch.Text))
                 {
-                    LoadCategories();
+                    LoadCars();
                 }
                 else
                 {
-                    DataTable dt = _categoryRepo.Search(txtCategorySearch.Text);
-                    dgvCategories.DataSource = dt;
+                    DataTable dt = _carRepo.Search(txtCarSearch.Text);
+                    dgvCars.DataSource = dt;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion
-
-        #region SUPPLIERS
-
-        private void LoadSuppliersTab()
-        {
-            try
-            {
-                LoadSuppliers();
-                ClearSupplierForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading suppliers: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void LoadSuppliers()
-        {
-            try
-            {
-                DataTable dt = _supplierRepo.GetAll();
-                dgvSuppliers.DataSource = dt;
-                dgvSuppliers.AutoResizeColumns();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ClearSupplierForm()
-        {
-            txtSupplierID.Clear();
-            txtSupplierName.Clear();
-            txtSupplierContact.Clear();
-            txtSupplierEmail.Clear();
-            txtSupplierPhone.Clear();
-            txtSupplierCreatedDate.Clear();
-            txtSupplierSearch.Clear();
-            _selectedSupplierID = -1;
-        }
-
-        private bool ValidateSupplierInputs()
-        {
-            if (string.IsNullOrWhiteSpace(txtSupplierName.Text))
-            {
-                MessageBox.Show("Enter supplier name", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
-        }
-
-        private void btnSupplierAdd_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!ValidateSupplierInputs()) return;
-
-                Supplier supplier = new Supplier
-                {
-                    SupplierName = txtSupplierName.Text,
-                    ContactPerson = txtSupplierContact.Text,
-                    Email = txtSupplierEmail.Text,
-                    Phone = txtSupplierPhone.Text
-                };
-
-                if (_supplierRepo.Add(supplier))
-                {
-                    MessageBox.Show("Added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadSuppliersTab();
-                    LoadProductSuppliers();
-                }
-                else
-                {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnSupplierUpdate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_selectedSupplierID == -1)
-                {
-                    MessageBox.Show("Select a supplier", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (!ValidateSupplierInputs()) return;
-
-                Supplier supplier = new Supplier
-                {
-                    SupplierID = _selectedSupplierID,
-                    SupplierName = txtSupplierName.Text,
-                    ContactPerson = txtSupplierContact.Text,
-                    Email = txtSupplierEmail.Text,
-                    Phone = txtSupplierPhone.Text
-                };
-
-                if (_supplierRepo.Update(supplier))
-                {
-                    MessageBox.Show("Updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadSuppliersTab();
-                    LoadProductSuppliers();
-                }
-                else
-                {
-                    MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnSupplierDelete_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_selectedSupplierID == -1)
-                {
-                    MessageBox.Show("Select a supplier", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    if (_supplierRepo.Delete(_selectedSupplierID))
-                    {
-                        MessageBox.Show("Deleted!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadSuppliersTab();
-                        LoadProductSuppliers();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnSupplierRefresh_Click(object sender, EventArgs e)
-        {
-            LoadSuppliersTab();
-        }
-
-        private void dgvSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.RowIndex >= 0)
-                {
-                    DataGridViewRow row = dgvSuppliers.Rows[e.RowIndex];
-                    _selectedSupplierID = (int)row.Cells["SupplierID"].Value;
-                    txtSupplierID.Text = _selectedSupplierID.ToString();
-                    txtSupplierName.Text = row.Cells["SupplierName"].Value.ToString();
-                    txtSupplierContact.Text = row.Cells["ContactPerson"].Value?.ToString() ?? "";
-                    txtSupplierEmail.Text = row.Cells["Email"].Value?.ToString() ?? "";
-                    txtSupplierPhone.Text = row.Cells["Phone"].Value?.ToString() ?? "";
-                    txtSupplierCreatedDate.Text = row.Cells["CreatedDate"].Value.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void txtSupplierSearch_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txtSupplierSearch.Text))
-                {
-                    LoadSuppliers();
-                }
-                else
-                {
-                    DataTable dt = _supplierRepo.Search(txtSupplierSearch.Text);
-                    dgvSuppliers.DataSource = dt;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -684,7 +497,6 @@ namespace exam
         {
             try
             {
-                cmbReportType.SelectedIndex = 0;
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.Clear();
@@ -692,7 +504,7 @@ namespace exam
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -700,29 +512,18 @@ namespace exam
         {
             try
             {
-                if (cmbReportType.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Select a report type", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string reportType = cmbReportType.SelectedItem.ToString();
-                string reportFile;
-                string dataSetName;
-                DataTable reportData;
-
-                GetReportConfiguration(reportType, out reportFile, out dataSetName, out reportData);
+                DataTable reportData = _carRepo.GetReportData();
 
                 if (reportData == null || reportData.Rows.Count == 0)
                 {
-                    MessageBox.Show("No data available for this report", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Нет данных для отчёта", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                string reportPath = ResolveReportPath(reportFile);
+                string reportPath = ResolveReportPath("ClientsCarsReport.rdlc");
                 if (!System.IO.File.Exists(reportPath))
                 {
-                    MessageBox.Show("RDLC file not found: " + reportPath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Файл отчёта не найден: " + reportPath, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -730,13 +531,13 @@ namespace exam
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportPath = reportPath;
                 reportViewer.LocalReport.DataSources.Clear();
-                reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataSetName, reportData));
+                reportViewer.LocalReport.DataSources.Add(new ReportDataSource("ClientsCarsDataSet", reportData));
                 reportViewer.LocalReport.Refresh();
                 reportViewer.RefreshReport();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -746,102 +547,45 @@ namespace exam
             {
                 if (reportViewer.LocalReport == null || reportViewer.LocalReport.DataSources.Count == 0)
                 {
-                    MessageBox.Show("Generate a report first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Сначала сформируйте отчёт", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 SaveFileDialog saveDialog = new SaveFileDialog();
                 saveDialog.Filter = "PDF files (*.pdf)|*.pdf|Excel files (*.xlsx)|*.xlsx|Word files (*.docx)|*.docx";
-                saveDialog.FileName = "Report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                saveDialog.FileName = "Отчёт_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
-                if (saveDialog.ShowDialog() != DialogResult.OK)
-                {
-                    return;
-                }
+                if (saveDialog.ShowDialog() != DialogResult.OK) return;
 
                 string extension = System.IO.Path.GetExtension(saveDialog.FileName).ToLowerInvariant();
                 string renderFormat = "PDF";
+                if (extension == ".xlsx") renderFormat = "EXCELOPENXML";
+                else if (extension == ".docx") renderFormat = "WORDOPENXML";
 
-                if (extension == ".xlsx")
-                {
-                    renderFormat = "EXCELOPENXML";
-                }
-                else if (extension == ".docx")
-                {
-                    renderFormat = "WORDOPENXML";
-                }
-
-                string mimeType;
-                string encoding;
-                string fileNameExtension;
+                string mimeType, encoding, fileNameExtension;
                 string[] streamIds;
                 Warning[] warnings;
 
                 byte[] renderedBytes = reportViewer.LocalReport.Render(
-                    renderFormat,
-                    null,
-                    out mimeType,
-                    out encoding,
-                    out fileNameExtension,
-                    out streamIds,
-                    out warnings);
+                    renderFormat, null,
+                    out mimeType, out encoding, out fileNameExtension, out streamIds, out warnings);
 
                 System.IO.File.WriteAllBytes(saveDialog.FileName, renderedBytes);
-                MessageBox.Show("Report exported successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Отчёт экспортирован!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void GetReportConfiguration(string reportType, out string reportFile, out string dataSetName, out DataTable reportData)
-        {
-            reportFile = "AllProducts.rdlc";
-            dataSetName = "ProductDataSet";
-            reportData = _productRepo.GetAll();
-
-            switch (reportType)
-            {
-                case "All Products":
-                    reportFile = "AllProducts.rdlc";
-                    dataSetName = "ProductDataSet";
-                    reportData = _productRepo.GetAll();
-                    break;
-                case "Products by Category":
-                    reportFile = "AllProducts.rdlc";
-                    dataSetName = "ProductDataSet";
-                    reportData = _productRepo.GetAll();
-                    break;
-                case "Products by Supplier":
-                    reportFile = "AllProducts.rdlc";
-                    dataSetName = "ProductDataSet";
-                    reportData = _productRepo.GetAll();
-                    break;
-                case "Categories Summary":
-                    reportFile = "CategoriesSummary.rdlc";
-                    dataSetName = "CategoryDataSet";
-                    reportData = _categoryRepo.GetAll();
-                    break;
-                case "Suppliers Summary":
-                    reportFile = "SuppliersSummary.rdlc";
-                    dataSetName = "SupplierDataSet";
-                    reportData = _supplierRepo.GetAll();
-                    break;
+                MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private string ResolveReportPath(string reportFile)
         {
             string pathFromOutput = System.IO.Path.Combine(Application.StartupPath, "Reports", reportFile);
-            if (System.IO.File.Exists(pathFromOutput))
-            {
-                return pathFromOutput;
-            }
+            if (System.IO.File.Exists(pathFromOutput)) return pathFromOutput;
 
             string pathFromProject = System.IO.Path.GetFullPath(
                 System.IO.Path.Combine(Application.StartupPath, "..", "..", "Reports", reportFile));
-
             return pathFromProject;
         }
 

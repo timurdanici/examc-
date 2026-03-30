@@ -6,11 +6,11 @@ using System.Data;
 
 namespace exam.Services
 {
-    public class CategoryRepository
+    public class ClientRepository
     {
         private DatabaseConnection _db;
 
-        public CategoryRepository()
+        public ClientRepository()
         {
             _db = new DatabaseConnection();
         }
@@ -19,63 +19,65 @@ namespace exam.Services
         {
             try
             {
-                string query = "SELECT CategoryID, CategoryName, Description, CreatedDate FROM Categories ORDER BY CategoryID DESC";
+                string query = "SELECT Id_client, Surname, Name, Phonenumber, Address FROM clients ORDER BY Id_client";
                 return _db.ExecuteSelect(query);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error retrieving categories: " + ex.Message);
+                throw new Exception("Ошибка получения клиентов: " + ex.Message);
             }
         }
 
-        public bool Add(Category category)
+        public bool Add(Client client)
         {
             try
             {
-                string query = "INSERT INTO Categories (CategoryName, Description) VALUES (@name, @desc)";
+                string query = "INSERT INTO clients (Surname, Name, Phonenumber, Address) VALUES (@surname, @name, @phone, @address)";
                 MySqlParameter[] parameters = {
-                    new MySqlParameter("@name", category.CategoryName),
-                    new MySqlParameter("@desc", category.Description ?? "")
+                    new MySqlParameter("@surname", client.Surname),
+                    new MySqlParameter("@name", client.Name),
+                    new MySqlParameter("@phone", client.Phonenumber),
+                    new MySqlParameter("@address", client.Address)
                 };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error adding category: " + ex.Message);
+                throw new Exception("Ошибка добавления клиента: " + ex.Message);
             }
         }
 
-        public bool Update(Category category)
+        public bool Update(Client client)
         {
             try
             {
-                string query = "UPDATE Categories SET CategoryName = @name, Description = @desc WHERE CategoryID = @id";
+                string query = "UPDATE clients SET Surname=@surname, Name=@name, Phonenumber=@phone, Address=@address WHERE Id_client=@id";
                 MySqlParameter[] parameters = {
-                    new MySqlParameter("@id", category.CategoryID),
-                    new MySqlParameter("@name", category.CategoryName),
-                    new MySqlParameter("@desc", category.Description ?? "")
+                    new MySqlParameter("@id", client.Id_client),
+                    new MySqlParameter("@surname", client.Surname),
+                    new MySqlParameter("@name", client.Name),
+                    new MySqlParameter("@phone", client.Phonenumber),
+                    new MySqlParameter("@address", client.Address)
                 };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating category: " + ex.Message);
+                throw new Exception("Ошибка обновления клиента: " + ex.Message);
             }
         }
 
-        public bool Delete(int categoryID)
+        public bool Delete(int id)
         {
             try
             {
-                string query = "DELETE FROM Categories WHERE CategoryID = @id";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@id", categoryID)
-                };
+                string query = "DELETE FROM clients WHERE Id_client=@id";
+                MySqlParameter[] parameters = { new MySqlParameter("@id", id) };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error deleting category: " + ex.Message);
+                throw new Exception("Ошибка удаления клиента: " + ex.Message);
             }
         }
 
@@ -83,15 +85,13 @@ namespace exam.Services
         {
             try
             {
-                string query = "SELECT CategoryID, CategoryName, Description, CreatedDate FROM Categories WHERE CategoryName LIKE @keyword OR Description LIKE @keyword ORDER BY CategoryID DESC";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@keyword", "%" + keyword + "%")
-                };
+                string query = "SELECT Id_client, Surname, Name, Phonenumber, Address FROM clients WHERE Surname LIKE @kw OR Name LIKE @kw OR Phonenumber LIKE @kw ORDER BY Id_client";
+                MySqlParameter[] parameters = { new MySqlParameter("@kw", "%" + keyword + "%") };
                 return _db.ExecuteSelect(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error searching categories: " + ex.Message);
+                throw new Exception("Ошибка поиска клиентов: " + ex.Message);
             }
         }
     }
