@@ -1,68 +1,131 @@
--- Create Database
-CREATE DATABASE IF NOT EXISTS product_management;
-USE product_management;
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 30, 2026 at 08:02 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
--- Create Categories Table
-CREATE TABLE IF NOT EXISTS Categories (
-    CategoryID INT AUTO_INCREMENT PRIMARY KEY,
-    CategoryName VARCHAR(100) NOT NULL UNIQUE,
-    Description VARCHAR(255),
-    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Create Suppliers Table
-CREATE TABLE IF NOT EXISTS Suppliers (
-    SupplierID INT AUTO_INCREMENT PRIMARY KEY,
-    SupplierName VARCHAR(100) NOT NULL UNIQUE,
-    ContactPerson VARCHAR(100),
-    Email VARCHAR(100),
-    Phone VARCHAR(20),
-    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP
-);
 
--- Create Products Table
-CREATE TABLE IF NOT EXISTS Products (
-    ProductID INT AUTO_INCREMENT PRIMARY KEY,
-    ProductName VARCHAR(100) NOT NULL,
-    CategoryID INT NOT NULL,
-    SupplierID INT NOT NULL,
-    Price DECIMAL(10, 2) NOT NULL,
-    Quantity INT NOT NULL,
-    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UpdatedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
-    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Insert Sample Categories
-INSERT INTO Categories (CategoryName, Description) VALUES
-('Electronics', 'Electronic devices and accessories'),
-('Furniture', 'Office and home furniture'),
-('Stationery', 'Office supplies and stationery items');
+--
+-- Database: `autoservice`
+--
 
--- Insert Sample Suppliers
-INSERT INTO Suppliers (SupplierName, ContactPerson, Email, Phone) VALUES
-('TechSupply Inc.', 'John Smith', 'john@techsupply.com', '+1-555-0101'),
-('FurniturePro Ltd.', 'Sarah Johnson', 'sarah@furniturepro.com', '+1-555-0102'),
-('GlobalStationery Co.', 'Mike Chen', 'mike@globalstationery.com', '+1-555-0103');
+-- --------------------------------------------------------
 
--- Insert Sample Products
-INSERT INTO Products (ProductName, CategoryID, SupplierID, Price, Quantity) VALUES
-('Laptop Dell XPS 13', 1, 1, 999.99, 10),
-('Wireless Mouse', 1, 1, 29.99, 50),
-('USB-C Cable', 1, 1, 9.99, 100),
-('Office Desk Pro', 2, 2, 399.99, 8),
-('Executive Chair', 2, 2, 199.99, 20),
-('Desk Lamp LED', 2, 2, 49.99, 25),
-('Notebook A4', 3, 3, 5.99, 100),
-('Pen Set Premium', 3, 3, 12.99, 60),
-('Highlighter Pack', 3, 3, 8.99, 80);
+--
+-- Table structure for table `cars`
+--
 
--- Create Index for better performance
-CREATE INDEX idx_category ON Products(CategoryID);
-CREATE INDEX idx_supplier ON Products(SupplierID);
+CREATE TABLE `cars` (
+  `Id_car` int(11) NOT NULL,
+  `Brand` varchar(30) NOT NULL,
+  `Model` varchar(50) NOT NULL,
+  `Release_Year` date NOT NULL,
+  `Gos_number` varchar(10) NOT NULL,
+  `Id_Client` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Verify Data
-SELECT * FROM Categories;
-SELECT * FROM Suppliers;
-SELECT * FROM Products;
+--
+-- Dumping data for table `cars`
+--
+
+INSERT INTO `cars` (`Id_car`, `Brand`, `Model`, `Release_Year`, `Gos_number`, `Id_Client`) VALUES
+(1, 'BMW', 'X5', '2018-01-01', 'MDABC123', 1),
+(2, 'Audi', 'A6', '2017-01-01', 'MDBCD234', 2),
+(3, 'Toyota', 'Corolla', '2020-01-01', 'MDCDE345', 3),
+(4, 'Mercedes', 'C200', '2019-01-01', 'MDDEF456', 4),
+(5, 'Volkswagen', 'Passat', '2016-01-01', 'MDEFG567', 5),
+(6, 'Ford', 'Focus', '2015-01-01', 'MDFGH678', 6),
+(7, 'Honda', 'Civic', '2021-01-01', 'MDGHI789', 7),
+(8, 'Hyundai', 'Elantra', '2018-01-01', 'MDHIJ890', 8),
+(9, 'Kia', 'Sportage', '2022-01-01', 'MDIJK901', 9),
+(10, 'Skoda', 'Octavia', '2019-01-01', 'MDJKL012', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `Id_client` int(11) NOT NULL,
+  `Surname` varchar(30) NOT NULL,
+  `Name` varchar(30) NOT NULL,
+  `Phonenumber` varchar(10) NOT NULL,
+  `Address` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`Id_client`, `Surname`, `Name`, `Phonenumber`, `Address`) VALUES
+(1, 'Popescu', 'Ion', '079111111', 'Chisinau, Botanica'),
+(2, 'Ionescu', 'Maria', '079222222', 'Chisinau, Riscani'),
+(3, 'Rusu', 'Andrei', '079333333', 'Chisinau, Centru'),
+(4, 'Munteanu', 'Elena', '079444444', 'Balti'),
+(5, 'Ceban', 'Victor', '079555555', 'Cahul'),
+(6, 'Luca', 'Ana', '079666666', 'Orhei'),
+(7, 'Moraru', 'Sergiu', '079777777', 'Ungheni'),
+(8, 'Balan', 'Cristina', '079888888', 'Soroca'),
+(9, 'Sandu', 'Dumitru', '079999999', 'Comrat'),
+(10, 'Grosu', 'Natalia', '078000000', 'Edinet');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cars`
+--
+ALTER TABLE `cars`
+  ADD PRIMARY KEY (`Id_car`),
+  ADD KEY `Id_Client` (`Id_Client`);
+
+--
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`Id_client`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cars`
+--
+ALTER TABLE `cars`
+  MODIFY `Id_car` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `Id_client` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cars`
+--
+ALTER TABLE `cars`
+  ADD CONSTRAINT `cars_ibfk_1` FOREIGN KEY (`Id_Client`) REFERENCES `clients` (`Id_client`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
