@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 
@@ -13,70 +14,197 @@ namespace exam
             {
                 components.Dispose();
             }
+            if (disposing)
+            {
+                FontTitle?.Dispose();
+                FontSub?.Dispose();
+                FontLabel?.Dispose();
+                FontInput?.Dispose();
+                FontTab?.Dispose();
+                FontBtn?.Dispose();
+                FontGroup?.Dispose();
+            }
             base.Dispose(disposing);
+        }
+
+        // ── Colour palette ────────────────────────────────────────────────────
+        private static readonly Color ClrNavy      = Color.FromArgb(15, 32, 65);   // header / tab strip
+        private static readonly Color ClrDarkBlue  = Color.FromArgb(22, 50, 100);  // sidebar panels
+        private static readonly Color ClrOrange    = Color.FromArgb(230, 100, 20); // primary accent
+        private static readonly Color ClrGreen     = Color.FromArgb(39, 174, 96);
+        private static readonly Color ClrBlue      = Color.FromArgb(41, 128, 185);
+        private static readonly Color ClrRed       = Color.FromArgb(192, 57, 43);
+        private static readonly Color ClrSlate     = Color.FromArgb(100, 116, 139);
+        private static readonly Color ClrPageBg    = Color.FromArgb(240, 244, 248);
+        private static readonly Color ClrCardBg    = Color.White;
+        private static readonly Color ClrTextDark  = Color.FromArgb(30, 40, 55);
+        private static readonly Color ClrTextLight = Color.White;
+        private static readonly Color ClrBorder    = Color.FromArgb(200, 210, 225);
+        private static readonly Color ClrGridHdr   = Color.FromArgb(22, 50, 100);
+        private static readonly Color ClrGridSel   = Color.FromArgb(230, 100, 20);
+
+        // ── Fonts ─────────────────────────────────────────────────────────────
+        private readonly Font FontTitle  = new Font("Segoe UI", 18F, FontStyle.Bold);
+        private readonly Font FontSub    = new Font("Segoe UI", 9F, FontStyle.Regular);
+        private readonly Font FontLabel  = new Font("Segoe UI", 9F, FontStyle.Bold);
+        private readonly Font FontInput  = new Font("Segoe UI", 9.5F);
+        private readonly Font FontTab    = new Font("Segoe UI", 10F, FontStyle.Bold);
+        private readonly Font FontBtn    = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+        private readonly Font FontGroup  = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+        // ── Helpers ───────────────────────────────────────────────────────────
+        private Button MakeBtn(string text, Color back, int x, int y, int w = 355, int h = 40)
+        {
+            var b = new Button
+            {
+                Text = text,
+                Location = new Point(x, y),
+                Size = new Size(w, h),
+                BackColor = back,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = FontBtn,
+                Cursor = Cursors.Hand
+            };
+            b.FlatAppearance.BorderSize = 0;
+            return b;
+        }
+
+        private GroupBox MakeGroup(string text, int x, int y, int w, int h)
+        {
+            return new GroupBox
+            {
+                Text = text,
+                Location = new Point(x, y),
+                Size = new Size(w, h),
+                BackColor = ClrCardBg,
+                ForeColor = ClrDarkBlue,
+                Font = FontGroup
+            };
+        }
+
+        private Label MakeLbl(string text, int x, int y)
+        {
+            return new Label
+            {
+                Text = text,
+                Location = new Point(x, y),
+                AutoSize = true,
+                Font = FontLabel,
+                ForeColor = ClrTextDark
+            };
+        }
+
+        private TextBox MakeTxt(int x, int y, int w, bool ro = false)
+        {
+            return new TextBox
+            {
+                Location = new Point(x, y),
+                Size = new Size(w, 28),
+                Font = FontInput,
+                BackColor = ro ? Color.FromArgb(235, 240, 248) : Color.White,
+                ForeColor = ClrTextDark,
+                BorderStyle = BorderStyle.FixedSingle,
+                ReadOnly = ro
+            };
+        }
+
+        private void StyleDgv(DataGridView dgv)
+        {
+            dgv.BackgroundColor = ClrCardBg;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.GridColor = ClrBorder;
+            dgv.RowsDefaultCellStyle.BackColor = Color.White;
+            dgv.RowsDefaultCellStyle.ForeColor = ClrTextDark;
+            dgv.RowsDefaultCellStyle.Font = FontSub;
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 252);
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = ClrGridHdr;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = FontLabel;
+            dgv.ColumnHeadersDefaultCellStyle.Padding = new Padding(4, 0, 0, 0);
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.ColumnHeadersHeight = 34;
+            dgv.DefaultCellStyle.SelectionBackColor = ClrGridSel;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.RowTemplate.Height = 28;
         }
 
         private void InitializeComponent()
         {
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabClients = new System.Windows.Forms.TabPage();
-            this.tabCars = new System.Windows.Forms.TabPage();
-            this.tabReports = new System.Windows.Forms.TabPage();
+            // ── Instantiate all controls ──────────────────────────────────────
+            this.panelHeader        = new Panel();
+            this.lblAppTitle        = new Label();
+            this.lblAppSubtitle     = new Label();
+            this.panelAccentLine    = new Panel();
 
-            // Clients tab controls
-            this.dgvClients = new System.Windows.Forms.DataGridView();
-            this.groupBoxClientDetails = new System.Windows.Forms.GroupBox();
-            this.lblClientID = new System.Windows.Forms.Label();
-            this.txtClientID = new System.Windows.Forms.TextBox();
-            this.lblClientSurname = new System.Windows.Forms.Label();
-            this.txtClientSurname = new System.Windows.Forms.TextBox();
-            this.lblClientName = new System.Windows.Forms.Label();
-            this.txtClientName = new System.Windows.Forms.TextBox();
-            this.lblClientPhone = new System.Windows.Forms.Label();
-            this.txtClientPhone = new System.Windows.Forms.TextBox();
-            this.lblClientAddress = new System.Windows.Forms.Label();
-            this.txtClientAddress = new System.Windows.Forms.TextBox();
-            this.groupBoxClientOps = new System.Windows.Forms.GroupBox();
-            this.btnClientAdd = new System.Windows.Forms.Button();
-            this.btnClientUpdate = new System.Windows.Forms.Button();
-            this.btnClientDelete = new System.Windows.Forms.Button();
-            this.btnClientRefresh = new System.Windows.Forms.Button();
-            this.btnClientClear = new System.Windows.Forms.Button();
-            this.groupBoxClientSearch = new System.Windows.Forms.GroupBox();
-            this.lblClientSearch = new System.Windows.Forms.Label();
-            this.txtClientSearch = new System.Windows.Forms.TextBox();
+            this.tabControlMain = new TabControl();
+            this.tabClients     = new TabPage();
+            this.tabCars        = new TabPage();
+            this.tabReports     = new TabPage();
 
-            // Cars tab controls
-            this.dgvCars = new System.Windows.Forms.DataGridView();
-            this.groupBoxCarDetails = new System.Windows.Forms.GroupBox();
-            this.lblCarID = new System.Windows.Forms.Label();
-            this.txtCarID = new System.Windows.Forms.TextBox();
-            this.lblCarBrand = new System.Windows.Forms.Label();
-            this.txtCarBrand = new System.Windows.Forms.TextBox();
-            this.lblCarModel = new System.Windows.Forms.Label();
-            this.txtCarModel = new System.Windows.Forms.TextBox();
-            this.lblCarYear = new System.Windows.Forms.Label();
-            this.txtCarYear = new System.Windows.Forms.TextBox();
-            this.lblCarGosNumber = new System.Windows.Forms.Label();
-            this.txtCarGosNumber = new System.Windows.Forms.TextBox();
-            this.lblCarClient = new System.Windows.Forms.Label();
-            this.cmbCarClient = new System.Windows.Forms.ComboBox();
-            this.groupBoxCarOps = new System.Windows.Forms.GroupBox();
-            this.btnCarAdd = new System.Windows.Forms.Button();
-            this.btnCarUpdate = new System.Windows.Forms.Button();
-            this.btnCarDelete = new System.Windows.Forms.Button();
-            this.btnCarRefresh = new System.Windows.Forms.Button();
-            this.btnCarClear = new System.Windows.Forms.Button();
-            this.groupBoxCarSearch = new System.Windows.Forms.GroupBox();
-            this.lblCarSearch = new System.Windows.Forms.Label();
-            this.txtCarSearch = new System.Windows.Forms.TextBox();
+            // Clients
+            this.dgvClients            = new DataGridView();
+            this.groupBoxClientDetails = MakeGroup("Данные клиента", 750, 10, 385, 335);
+            this.lblClientID           = MakeLbl("ID:", 12, 32);
+            this.txtClientID           = MakeTxt(140, 29, 225, ro: true);
+            this.lblClientSurname      = MakeLbl("Фамилия:", 12, 72);
+            this.txtClientSurname      = MakeTxt(140, 69, 225);
+            this.lblClientName         = MakeLbl("Имя:", 12, 112);
+            this.txtClientName         = MakeTxt(140, 109, 225);
+            this.lblClientPhone        = MakeLbl("Телефон:", 12, 152);
+            this.txtClientPhone        = MakeTxt(140, 149, 225);
+            this.lblClientAddress      = MakeLbl("Адрес:", 12, 192);
+            this.txtClientAddress      = MakeTxt(140, 189, 225);
+            this.groupBoxClientOps     = MakeGroup("Операции", 750, 355, 385, 285);
+            this.btnClientAdd          = MakeBtn("＋  Добавить клиента", ClrGreen,  10, 30);
+            this.btnClientUpdate       = MakeBtn("✎  Изменить",          ClrBlue,   10, 80);
+            this.btnClientDelete       = MakeBtn("✕  Удалить",           ClrRed,    10, 130);
+            this.btnClientRefresh      = MakeBtn("↻  Обновить",          ClrSlate,  10, 185, 175);
+            this.btnClientClear        = MakeBtn("⊘  Очистить",          ClrSlate,  198, 185, 175);
+            this.groupBoxClientSearch  = MakeGroup("🔍  Поиск клиентов", 8, 10, 730, 52);
+            this.lblClientSearch       = MakeLbl("Поиск:", 10, 20);
+            this.txtClientSearch       = MakeTxt(68, 17, 645);
 
-            // Reports tab controls
-            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.groupBoxReportActions = new System.Windows.Forms.GroupBox();
-            this.btnGenerateReport = new System.Windows.Forms.Button();
-            this.btnExportReport = new System.Windows.Forms.Button();
+            // Cars
+            this.dgvCars            = new DataGridView();
+            this.groupBoxCarDetails = MakeGroup("Данные автомобиля", 750, 10, 385, 380);
+            this.lblCarID           = MakeLbl("ID:", 12, 32);
+            this.txtCarID           = MakeTxt(140, 29, 225, ro: true);
+            this.lblCarBrand        = MakeLbl("Марка:", 12, 72);
+            this.txtCarBrand        = MakeTxt(140, 69, 225);
+            this.lblCarModel        = MakeLbl("Модель:", 12, 112);
+            this.txtCarModel        = MakeTxt(140, 109, 225);
+            this.lblCarYear         = MakeLbl("Год выпуска:", 12, 152);
+            this.txtCarYear         = MakeTxt(140, 149, 225);
+            this.lblCarGosNumber    = MakeLbl("Гос. номер:", 12, 192);
+            this.txtCarGosNumber    = MakeTxt(140, 189, 225);
+            this.lblCarClient       = MakeLbl("Клиент:", 12, 232);
+            this.cmbCarClient       = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                FormattingEnabled = true,
+                Location = new Point(140, 229),
+                Size = new Size(225, 28),
+                Font = FontInput,
+                FlatStyle = FlatStyle.Flat
+            };
+            this.groupBoxCarOps     = MakeGroup("Операции", 750, 400, 385, 250);
+            this.btnCarAdd          = MakeBtn("＋  Добавить автомобиль", ClrGreen,  10, 30);
+            this.btnCarUpdate       = MakeBtn("✎  Изменить",             ClrBlue,   10, 80);
+            this.btnCarDelete       = MakeBtn("✕  Удалить",              ClrRed,    10, 130);
+            this.btnCarRefresh      = MakeBtn("↻  Обновить",             ClrSlate,  10, 185, 175);
+            this.btnCarClear        = MakeBtn("⊘  Очистить",             ClrSlate,  198, 185, 175);
+            this.groupBoxCarSearch  = MakeGroup("🔍  Поиск (марка / гос. номер)", 8, 10, 730, 52);
+            this.lblCarSearch       = MakeLbl("Поиск:", 10, 20);
+            this.txtCarSearch       = MakeTxt(68, 17, 645);
 
+            // Reports
+            this.reportViewer         = new ReportViewer();
+            this.groupBoxReportActions = MakeGroup("Действия", 8, 8, 1126, 60);
+            this.btnGenerateReport    = MakeBtn("📄  Сформировать отчёт", ClrOrange, 10, 16, 210, 36);
+            this.btnExportReport      = MakeBtn("⬇  Экспортировать",     ClrSlate,  230, 16, 210, 36);
+
+            // ── Begin init ────────────────────────────────────────────────────
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCars)).BeginInit();
             this.tabControlMain.SuspendLayout();
@@ -85,67 +213,72 @@ namespace exam
             this.tabReports.SuspendLayout();
             this.SuspendLayout();
 
-            // tabControlMain
+            // ── Header panel ──────────────────────────────────────────────────
+            this.panelHeader.BackColor = ClrNavy;
+            this.panelHeader.Dock = DockStyle.Top;
+            this.panelHeader.Height = 70;
+            this.panelHeader.Name = "panelHeader";
+
+            this.lblAppTitle.Text = "🔧  АВТОСЕРВИС";
+            this.lblAppTitle.Font = FontTitle;
+            this.lblAppTitle.ForeColor = ClrOrange;
+            this.lblAppTitle.AutoSize = true;
+            this.lblAppTitle.Location = new Point(16, 10);
+            this.lblAppTitle.BackColor = Color.Transparent;
+
+            this.lblAppSubtitle.Text = "Система управления клиентами и автомобилями";
+            this.lblAppSubtitle.Font = FontSub;
+            this.lblAppSubtitle.ForeColor = Color.FromArgb(180, 200, 230);
+            this.lblAppSubtitle.AutoSize = true;
+            this.lblAppSubtitle.Location = new Point(18, 46);
+            this.lblAppSubtitle.BackColor = Color.Transparent;
+
+            this.panelAccentLine.BackColor = ClrOrange;
+            this.panelAccentLine.Dock = DockStyle.Bottom;
+            this.panelAccentLine.Height = 3;
+
+            this.panelHeader.Controls.Add(this.lblAppTitle);
+            this.panelHeader.Controls.Add(this.lblAppSubtitle);
+            this.panelHeader.Controls.Add(this.panelAccentLine);
+
+            // ── TabControl ────────────────────────────────────────────────────
             this.tabControlMain.Controls.Add(this.tabClients);
             this.tabControlMain.Controls.Add(this.tabCars);
             this.tabControlMain.Controls.Add(this.tabReports);
-            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlMain.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tabControlMain.Location = new System.Drawing.Point(0, 0);
+            this.tabControlMain.Dock = DockStyle.Fill;
+            this.tabControlMain.Font = FontTab;
+            this.tabControlMain.Padding = new Point(14, 6);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1150, 680);
-            this.tabControlMain.TabIndex = 0;
 
-            // ==================== CLIENTS TAB ====================
+            // ── Clients tab ───────────────────────────────────────────────────
+            this.tabClients.BackColor = ClrPageBg;
             this.tabClients.Controls.Add(this.dgvClients);
             this.tabClients.Controls.Add(this.groupBoxClientDetails);
             this.tabClients.Controls.Add(this.groupBoxClientOps);
             this.tabClients.Controls.Add(this.groupBoxClientSearch);
-            this.tabClients.Location = new System.Drawing.Point(4, 28);
             this.tabClients.Name = "tabClients";
-            this.tabClients.Padding = new System.Windows.Forms.Padding(3);
-            this.tabClients.Size = new System.Drawing.Size(1142, 648);
+            this.tabClients.Padding = new Padding(4);
+            this.tabClients.Text = "  👤 Клиенты  ";
             this.tabClients.TabIndex = 0;
-            this.tabClients.Text = "Клиенты";
-            this.tabClients.UseVisualStyleBackColor = true;
 
-            // groupBoxClientSearch
-            this.groupBoxClientSearch.Controls.Add(this.lblClientSearch);
-            this.groupBoxClientSearch.Controls.Add(this.txtClientSearch);
-            this.groupBoxClientSearch.Location = new System.Drawing.Point(8, 8);
-            this.groupBoxClientSearch.Name = "groupBoxClientSearch";
-            this.groupBoxClientSearch.Size = new System.Drawing.Size(730, 50);
-            this.groupBoxClientSearch.TabIndex = 0;
-            this.groupBoxClientSearch.Text = "Поиск";
-
-            this.lblClientSearch.AutoSize = true;
-            this.lblClientSearch.Location = new System.Drawing.Point(8, 20);
-            this.lblClientSearch.Name = "lblClientSearch";
-            this.lblClientSearch.Text = "Поиск:";
-
-            this.txtClientSearch.Location = new System.Drawing.Point(65, 17);
-            this.txtClientSearch.Name = "txtClientSearch";
-            this.txtClientSearch.Size = new System.Drawing.Size(650, 26);
-            this.txtClientSearch.TabIndex = 1;
             this.txtClientSearch.TextChanged += new System.EventHandler(this.txtClientSearch_TextChanged);
 
-            // dgvClients
+            StyleDgv(this.dgvClients);
             this.dgvClients.AllowUserToAddRows = false;
             this.dgvClients.AllowUserToDeleteRows = false;
-            this.dgvClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClients.Location = new System.Drawing.Point(8, 65);
+            this.dgvClients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvClients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvClients.Location = new Point(8, 70);
             this.dgvClients.MultiSelect = false;
             this.dgvClients.Name = "dgvClients";
             this.dgvClients.ReadOnly = true;
-            this.dgvClients.RowHeadersWidth = 51;
-            this.dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClients.Size = new System.Drawing.Size(730, 570);
+            this.dgvClients.RowHeadersVisible = false;
+            this.dgvClients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClients.Size = new Size(730, 568);
             this.dgvClients.TabIndex = 1;
-            this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellClick);
+            this.dgvClients.CellClick += new DataGridViewCellEventHandler(this.dgvClients_CellClick);
 
-            // groupBoxClientDetails
             this.groupBoxClientDetails.Controls.Add(this.lblClientID);
             this.groupBoxClientDetails.Controls.Add(this.txtClientID);
             this.groupBoxClientDetails.Controls.Add(this.lblClientSurname);
@@ -156,164 +289,65 @@ namespace exam
             this.groupBoxClientDetails.Controls.Add(this.txtClientPhone);
             this.groupBoxClientDetails.Controls.Add(this.lblClientAddress);
             this.groupBoxClientDetails.Controls.Add(this.txtClientAddress);
-            this.groupBoxClientDetails.Location = new System.Drawing.Point(750, 8);
-            this.groupBoxClientDetails.Name = "groupBoxClientDetails";
-            this.groupBoxClientDetails.Size = new System.Drawing.Size(380, 330);
             this.groupBoxClientDetails.TabIndex = 2;
-            this.groupBoxClientDetails.Text = "Данные клиента";
 
-            this.lblClientID.AutoSize = true;
-            this.lblClientID.Location = new System.Drawing.Point(10, 30);
-            this.lblClientID.Name = "lblClientID";
-            this.lblClientID.Text = "ID:";
-
-            this.txtClientID.Location = new System.Drawing.Point(130, 27);
-            this.txtClientID.Name = "txtClientID";
-            this.txtClientID.ReadOnly = true;
-            this.txtClientID.Size = new System.Drawing.Size(230, 26);
-            this.txtClientID.TabIndex = 0;
-
-            this.lblClientSurname.AutoSize = true;
-            this.lblClientSurname.Location = new System.Drawing.Point(10, 70);
-            this.lblClientSurname.Name = "lblClientSurname";
-            this.lblClientSurname.Text = "Фамилия:";
-
-            this.txtClientSurname.Location = new System.Drawing.Point(130, 67);
-            this.txtClientSurname.Name = "txtClientSurname";
-            this.txtClientSurname.Size = new System.Drawing.Size(230, 26);
-            this.txtClientSurname.TabIndex = 1;
-
-            this.lblClientName.AutoSize = true;
-            this.lblClientName.Location = new System.Drawing.Point(10, 110);
-            this.lblClientName.Name = "lblClientName";
-            this.lblClientName.Text = "Имя:";
-
-            this.txtClientName.Location = new System.Drawing.Point(130, 107);
-            this.txtClientName.Name = "txtClientName";
-            this.txtClientName.Size = new System.Drawing.Size(230, 26);
-            this.txtClientName.TabIndex = 2;
-
-            this.lblClientPhone.AutoSize = true;
-            this.lblClientPhone.Location = new System.Drawing.Point(10, 150);
-            this.lblClientPhone.Name = "lblClientPhone";
-            this.lblClientPhone.Text = "Телефон:";
-
-            this.txtClientPhone.Location = new System.Drawing.Point(130, 147);
-            this.txtClientPhone.Name = "txtClientPhone";
-            this.txtClientPhone.Size = new System.Drawing.Size(230, 26);
-            this.txtClientPhone.TabIndex = 3;
-
-            this.lblClientAddress.AutoSize = true;
-            this.lblClientAddress.Location = new System.Drawing.Point(10, 190);
-            this.lblClientAddress.Name = "lblClientAddress";
-            this.lblClientAddress.Text = "Адрес:";
-
-            this.txtClientAddress.Location = new System.Drawing.Point(130, 187);
-            this.txtClientAddress.Name = "txtClientAddress";
-            this.txtClientAddress.Size = new System.Drawing.Size(230, 26);
-            this.txtClientAddress.TabIndex = 4;
-
-            // groupBoxClientOps
             this.groupBoxClientOps.Controls.Add(this.btnClientAdd);
             this.groupBoxClientOps.Controls.Add(this.btnClientUpdate);
             this.groupBoxClientOps.Controls.Add(this.btnClientDelete);
             this.groupBoxClientOps.Controls.Add(this.btnClientRefresh);
             this.groupBoxClientOps.Controls.Add(this.btnClientClear);
-            this.groupBoxClientOps.Location = new System.Drawing.Point(750, 350);
-            this.groupBoxClientOps.Name = "groupBoxClientOps";
-            this.groupBoxClientOps.Size = new System.Drawing.Size(380, 285);
             this.groupBoxClientOps.TabIndex = 3;
-            this.groupBoxClientOps.Text = "Операции";
 
-            this.btnClientAdd.Location = new System.Drawing.Point(10, 30);
-            this.btnClientAdd.Name = "btnClientAdd";
-            this.btnClientAdd.Size = new System.Drawing.Size(355, 40);
-            this.btnClientAdd.TabIndex = 0;
-            this.btnClientAdd.Text = "Добавить";
-            this.btnClientAdd.UseVisualStyleBackColor = true;
-            this.btnClientAdd.Click += new System.EventHandler(this.btnClientAdd_Click);
-
-            this.btnClientUpdate.Location = new System.Drawing.Point(10, 80);
-            this.btnClientUpdate.Name = "btnClientUpdate";
-            this.btnClientUpdate.Size = new System.Drawing.Size(355, 40);
+            this.btnClientAdd.TabIndex    = 0;
             this.btnClientUpdate.TabIndex = 1;
-            this.btnClientUpdate.Text = "Изменить";
-            this.btnClientUpdate.UseVisualStyleBackColor = true;
-            this.btnClientUpdate.Click += new System.EventHandler(this.btnClientUpdate_Click);
-
-            this.btnClientDelete.Location = new System.Drawing.Point(10, 130);
-            this.btnClientDelete.Name = "btnClientDelete";
-            this.btnClientDelete.Size = new System.Drawing.Size(355, 40);
             this.btnClientDelete.TabIndex = 2;
-            this.btnClientDelete.Text = "Удалить";
-            this.btnClientDelete.UseVisualStyleBackColor = true;
-            this.btnClientDelete.Click += new System.EventHandler(this.btnClientDelete_Click);
-
-            this.btnClientRefresh.Location = new System.Drawing.Point(10, 180);
-            this.btnClientRefresh.Name = "btnClientRefresh";
-            this.btnClientRefresh.Size = new System.Drawing.Size(170, 40);
             this.btnClientRefresh.TabIndex = 3;
-            this.btnClientRefresh.Text = "Обновить";
-            this.btnClientRefresh.UseVisualStyleBackColor = true;
+            this.btnClientClear.TabIndex  = 4;
+            this.btnClientAdd.Click    += new System.EventHandler(this.btnClientAdd_Click);
+            this.btnClientUpdate.Click += new System.EventHandler(this.btnClientUpdate_Click);
+            this.btnClientDelete.Click += new System.EventHandler(this.btnClientDelete_Click);
             this.btnClientRefresh.Click += new System.EventHandler(this.btnClientRefresh_Click);
+            this.btnClientClear.Click  += new System.EventHandler(this.btnClientClear_Click);
 
-            this.btnClientClear.Location = new System.Drawing.Point(195, 180);
-            this.btnClientClear.Name = "btnClientClear";
-            this.btnClientClear.Size = new System.Drawing.Size(170, 40);
-            this.btnClientClear.TabIndex = 4;
-            this.btnClientClear.Text = "Очистить";
-            this.btnClientClear.UseVisualStyleBackColor = true;
-            this.btnClientClear.Click += new System.EventHandler(this.btnClientClear_Click);
+            this.groupBoxClientSearch.Controls.Add(this.lblClientSearch);
+            this.groupBoxClientSearch.Controls.Add(this.txtClientSearch);
+            this.groupBoxClientSearch.TabIndex = 0;
+            this.txtClientSearch.TabIndex = 1;
 
-            // ==================== CARS TAB ====================
+            this.txtClientID.TabIndex      = 0;
+            this.txtClientSurname.TabIndex = 1;
+            this.txtClientName.TabIndex    = 2;
+            this.txtClientPhone.TabIndex   = 3;
+            this.txtClientAddress.TabIndex = 4;
+
+            // ── Cars tab ──────────────────────────────────────────────────────
+            this.tabCars.BackColor = ClrPageBg;
             this.tabCars.Controls.Add(this.dgvCars);
             this.tabCars.Controls.Add(this.groupBoxCarDetails);
             this.tabCars.Controls.Add(this.groupBoxCarOps);
             this.tabCars.Controls.Add(this.groupBoxCarSearch);
-            this.tabCars.Location = new System.Drawing.Point(4, 28);
             this.tabCars.Name = "tabCars";
-            this.tabCars.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCars.Size = new System.Drawing.Size(1142, 648);
+            this.tabCars.Padding = new Padding(4);
+            this.tabCars.Text = "  🚗 Автомобили  ";
             this.tabCars.TabIndex = 1;
-            this.tabCars.Text = "Автомобили";
-            this.tabCars.UseVisualStyleBackColor = true;
 
-            // groupBoxCarSearch
-            this.groupBoxCarSearch.Controls.Add(this.lblCarSearch);
-            this.groupBoxCarSearch.Controls.Add(this.txtCarSearch);
-            this.groupBoxCarSearch.Location = new System.Drawing.Point(8, 8);
-            this.groupBoxCarSearch.Name = "groupBoxCarSearch";
-            this.groupBoxCarSearch.Size = new System.Drawing.Size(730, 50);
-            this.groupBoxCarSearch.TabIndex = 0;
-            this.groupBoxCarSearch.Text = "Поиск (по марке или номеру)";
-
-            this.lblCarSearch.AutoSize = true;
-            this.lblCarSearch.Location = new System.Drawing.Point(8, 20);
-            this.lblCarSearch.Name = "lblCarSearch";
-            this.lblCarSearch.Text = "Поиск:";
-
-            this.txtCarSearch.Location = new System.Drawing.Point(65, 17);
-            this.txtCarSearch.Name = "txtCarSearch";
-            this.txtCarSearch.Size = new System.Drawing.Size(650, 26);
-            this.txtCarSearch.TabIndex = 1;
             this.txtCarSearch.TextChanged += new System.EventHandler(this.txtCarSearch_TextChanged);
 
-            // dgvCars
+            StyleDgv(this.dgvCars);
             this.dgvCars.AllowUserToAddRows = false;
             this.dgvCars.AllowUserToDeleteRows = false;
-            this.dgvCars.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCars.Location = new System.Drawing.Point(8, 65);
+            this.dgvCars.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCars.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dgvCars.Location = new Point(8, 70);
             this.dgvCars.MultiSelect = false;
             this.dgvCars.Name = "dgvCars";
             this.dgvCars.ReadOnly = true;
-            this.dgvCars.RowHeadersWidth = 51;
-            this.dgvCars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCars.Size = new System.Drawing.Size(730, 570);
+            this.dgvCars.RowHeadersVisible = false;
+            this.dgvCars.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCars.Size = new Size(730, 568);
             this.dgvCars.TabIndex = 1;
-            this.dgvCars.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCars_CellClick);
+            this.dgvCars.CellClick += new DataGridViewCellEventHandler(this.dgvCars_CellClick);
 
-            // groupBoxCarDetails
             this.groupBoxCarDetails.Controls.Add(this.lblCarID);
             this.groupBoxCarDetails.Controls.Add(this.txtCarID);
             this.groupBoxCarDetails.Controls.Add(this.lblCarBrand);
@@ -326,178 +360,72 @@ namespace exam
             this.groupBoxCarDetails.Controls.Add(this.txtCarGosNumber);
             this.groupBoxCarDetails.Controls.Add(this.lblCarClient);
             this.groupBoxCarDetails.Controls.Add(this.cmbCarClient);
-            this.groupBoxCarDetails.Location = new System.Drawing.Point(750, 8);
-            this.groupBoxCarDetails.Name = "groupBoxCarDetails";
-            this.groupBoxCarDetails.Size = new System.Drawing.Size(380, 370);
             this.groupBoxCarDetails.TabIndex = 2;
-            this.groupBoxCarDetails.Text = "Данные автомобиля";
 
-            this.lblCarID.AutoSize = true;
-            this.lblCarID.Location = new System.Drawing.Point(10, 30);
-            this.lblCarID.Name = "lblCarID";
-            this.lblCarID.Text = "ID:";
-
-            this.txtCarID.Location = new System.Drawing.Point(130, 27);
-            this.txtCarID.Name = "txtCarID";
-            this.txtCarID.ReadOnly = true;
-            this.txtCarID.Size = new System.Drawing.Size(230, 26);
-            this.txtCarID.TabIndex = 0;
-
-            this.lblCarBrand.AutoSize = true;
-            this.lblCarBrand.Location = new System.Drawing.Point(10, 70);
-            this.lblCarBrand.Name = "lblCarBrand";
-            this.lblCarBrand.Text = "Марка:";
-
-            this.txtCarBrand.Location = new System.Drawing.Point(130, 67);
-            this.txtCarBrand.Name = "txtCarBrand";
-            this.txtCarBrand.Size = new System.Drawing.Size(230, 26);
-            this.txtCarBrand.TabIndex = 1;
-
-            this.lblCarModel.AutoSize = true;
-            this.lblCarModel.Location = new System.Drawing.Point(10, 110);
-            this.lblCarModel.Name = "lblCarModel";
-            this.lblCarModel.Text = "Модель:";
-
-            this.txtCarModel.Location = new System.Drawing.Point(130, 107);
-            this.txtCarModel.Name = "txtCarModel";
-            this.txtCarModel.Size = new System.Drawing.Size(230, 26);
-            this.txtCarModel.TabIndex = 2;
-
-            this.lblCarYear.AutoSize = true;
-            this.lblCarYear.Location = new System.Drawing.Point(10, 150);
-            this.lblCarYear.Name = "lblCarYear";
-            this.lblCarYear.Text = "Год выпуска:";
-
-            this.txtCarYear.Location = new System.Drawing.Point(130, 147);
-            this.txtCarYear.Name = "txtCarYear";
-            this.txtCarYear.Size = new System.Drawing.Size(230, 26);
-            this.txtCarYear.TabIndex = 3;
-
-            this.lblCarGosNumber.AutoSize = true;
-            this.lblCarGosNumber.Location = new System.Drawing.Point(10, 190);
-            this.lblCarGosNumber.Name = "lblCarGosNumber";
-            this.lblCarGosNumber.Text = "Гос. номер:";
-
-            this.txtCarGosNumber.Location = new System.Drawing.Point(130, 187);
-            this.txtCarGosNumber.Name = "txtCarGosNumber";
-            this.txtCarGosNumber.Size = new System.Drawing.Size(230, 26);
-            this.txtCarGosNumber.TabIndex = 4;
-
-            this.lblCarClient.AutoSize = true;
-            this.lblCarClient.Location = new System.Drawing.Point(10, 230);
-            this.lblCarClient.Name = "lblCarClient";
-            this.lblCarClient.Text = "Клиент:";
-
-            this.cmbCarClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCarClient.FormattingEnabled = true;
-            this.cmbCarClient.Location = new System.Drawing.Point(130, 227);
-            this.cmbCarClient.Name = "cmbCarClient";
-            this.cmbCarClient.Size = new System.Drawing.Size(230, 28);
-            this.cmbCarClient.TabIndex = 5;
-
-            // groupBoxCarOps
             this.groupBoxCarOps.Controls.Add(this.btnCarAdd);
             this.groupBoxCarOps.Controls.Add(this.btnCarUpdate);
             this.groupBoxCarOps.Controls.Add(this.btnCarDelete);
             this.groupBoxCarOps.Controls.Add(this.btnCarRefresh);
             this.groupBoxCarOps.Controls.Add(this.btnCarClear);
-            this.groupBoxCarOps.Location = new System.Drawing.Point(750, 390);
-            this.groupBoxCarOps.Name = "groupBoxCarOps";
-            this.groupBoxCarOps.Size = new System.Drawing.Size(380, 245);
             this.groupBoxCarOps.TabIndex = 3;
-            this.groupBoxCarOps.Text = "Операции";
 
-            this.btnCarAdd.Location = new System.Drawing.Point(10, 30);
-            this.btnCarAdd.Name = "btnCarAdd";
-            this.btnCarAdd.Size = new System.Drawing.Size(355, 40);
-            this.btnCarAdd.TabIndex = 0;
-            this.btnCarAdd.Text = "Добавить";
-            this.btnCarAdd.UseVisualStyleBackColor = true;
-            this.btnCarAdd.Click += new System.EventHandler(this.btnCarAdd_Click);
-
-            this.btnCarUpdate.Location = new System.Drawing.Point(10, 80);
-            this.btnCarUpdate.Name = "btnCarUpdate";
-            this.btnCarUpdate.Size = new System.Drawing.Size(355, 40);
+            this.btnCarAdd.TabIndex    = 0;
             this.btnCarUpdate.TabIndex = 1;
-            this.btnCarUpdate.Text = "Изменить";
-            this.btnCarUpdate.UseVisualStyleBackColor = true;
-            this.btnCarUpdate.Click += new System.EventHandler(this.btnCarUpdate_Click);
-
-            this.btnCarDelete.Location = new System.Drawing.Point(10, 130);
-            this.btnCarDelete.Name = "btnCarDelete";
-            this.btnCarDelete.Size = new System.Drawing.Size(355, 40);
             this.btnCarDelete.TabIndex = 2;
-            this.btnCarDelete.Text = "Удалить";
-            this.btnCarDelete.UseVisualStyleBackColor = true;
-            this.btnCarDelete.Click += new System.EventHandler(this.btnCarDelete_Click);
-
-            this.btnCarRefresh.Location = new System.Drawing.Point(10, 185);
-            this.btnCarRefresh.Name = "btnCarRefresh";
-            this.btnCarRefresh.Size = new System.Drawing.Size(170, 40);
             this.btnCarRefresh.TabIndex = 3;
-            this.btnCarRefresh.Text = "Обновить";
-            this.btnCarRefresh.UseVisualStyleBackColor = true;
+            this.btnCarClear.TabIndex  = 4;
+            this.btnCarAdd.Click    += new System.EventHandler(this.btnCarAdd_Click);
+            this.btnCarUpdate.Click += new System.EventHandler(this.btnCarUpdate_Click);
+            this.btnCarDelete.Click += new System.EventHandler(this.btnCarDelete_Click);
             this.btnCarRefresh.Click += new System.EventHandler(this.btnCarRefresh_Click);
+            this.btnCarClear.Click  += new System.EventHandler(this.btnCarClear_Click);
 
-            this.btnCarClear.Location = new System.Drawing.Point(195, 185);
-            this.btnCarClear.Name = "btnCarClear";
-            this.btnCarClear.Size = new System.Drawing.Size(170, 40);
-            this.btnCarClear.TabIndex = 4;
-            this.btnCarClear.Text = "Очистить";
-            this.btnCarClear.UseVisualStyleBackColor = true;
-            this.btnCarClear.Click += new System.EventHandler(this.btnCarClear_Click);
+            this.groupBoxCarSearch.Controls.Add(this.lblCarSearch);
+            this.groupBoxCarSearch.Controls.Add(this.txtCarSearch);
+            this.groupBoxCarSearch.TabIndex = 0;
+            this.txtCarSearch.TabIndex = 1;
 
-            // ==================== REPORTS TAB ====================
+            this.txtCarID.TabIndex      = 0;
+            this.txtCarBrand.TabIndex   = 1;
+            this.txtCarModel.TabIndex   = 2;
+            this.txtCarYear.TabIndex    = 3;
+            this.txtCarGosNumber.TabIndex = 4;
+            this.cmbCarClient.TabIndex  = 5;
+
+            // ── Reports tab ───────────────────────────────────────────────────
+            this.tabReports.BackColor = ClrPageBg;
             this.tabReports.Controls.Add(this.groupBoxReportActions);
             this.tabReports.Controls.Add(this.reportViewer);
-            this.tabReports.Location = new System.Drawing.Point(4, 28);
             this.tabReports.Name = "tabReports";
-            this.tabReports.Padding = new System.Windows.Forms.Padding(3);
-            this.tabReports.Size = new System.Drawing.Size(1142, 648);
+            this.tabReports.Padding = new Padding(4);
+            this.tabReports.Text = "  📊 Отчёты  ";
             this.tabReports.TabIndex = 2;
-            this.tabReports.Text = "Отчёт";
-            this.tabReports.UseVisualStyleBackColor = true;
 
-            // groupBoxReportActions
             this.groupBoxReportActions.Controls.Add(this.btnGenerateReport);
             this.groupBoxReportActions.Controls.Add(this.btnExportReport);
-            this.groupBoxReportActions.Location = new System.Drawing.Point(8, 8);
-            this.groupBoxReportActions.Name = "groupBoxReportActions";
-            this.groupBoxReportActions.Size = new System.Drawing.Size(1126, 60);
             this.groupBoxReportActions.TabIndex = 0;
-            this.groupBoxReportActions.Text = "Действия";
 
-            this.btnGenerateReport.Location = new System.Drawing.Point(10, 18);
-            this.btnGenerateReport.Name = "btnGenerateReport";
-            this.btnGenerateReport.Size = new System.Drawing.Size(200, 35);
             this.btnGenerateReport.TabIndex = 0;
-            this.btnGenerateReport.Text = "Сформировать отчёт";
-            this.btnGenerateReport.UseVisualStyleBackColor = true;
+            this.btnExportReport.TabIndex   = 1;
             this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
+            this.btnExportReport.Click   += new System.EventHandler(this.btnExportReport_Click);
 
-            this.btnExportReport.Location = new System.Drawing.Point(220, 18);
-            this.btnExportReport.Name = "btnExportReport";
-            this.btnExportReport.Size = new System.Drawing.Size(200, 35);
-            this.btnExportReport.TabIndex = 1;
-            this.btnExportReport.Text = "Экспортировать";
-            this.btnExportReport.UseVisualStyleBackColor = true;
-            this.btnExportReport.Click += new System.EventHandler(this.btnExportReport_Click);
-
-            // reportViewer
-            this.reportViewer.Location = new System.Drawing.Point(8, 75);
+            this.reportViewer.Location = new Point(8, 76);
             this.reportViewer.Name = "reportViewer";
-            this.reportViewer.Size = new System.Drawing.Size(1126, 560);
+            this.reportViewer.Size = new Size(1126, 560);
             this.reportViewer.TabIndex = 1;
 
-            // ==================== FORM ====================
+            // ── Form ──────────────────────────────────────────────────────────
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1150, 680);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackColor = ClrNavy;
+            this.ClientSize = new Size(1150, 750);
             this.Controls.Add(this.tabControlMain);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.MinimumSize = new System.Drawing.Size(900, 600);
+            this.Controls.Add(this.panelHeader);
+            this.Font = FontSub;
+            this.MinimumSize = new Size(950, 650);
             this.Name = "Form1";
-            this.Text = "Автосервис";
+            this.Text = "АвтоСервис — Система управления";
             this.Load += new System.EventHandler(this.Form1_Load);
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
@@ -509,64 +437,70 @@ namespace exam
             this.ResumeLayout(false);
         }
 
-        // TabControl
-        private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabClients;
-        private System.Windows.Forms.TabPage tabCars;
-        private System.Windows.Forms.TabPage tabReports;
+        // ── Header ────────────────────────────────────────────────────────────
+        private Panel  panelHeader;
+        private Label  lblAppTitle;
+        private Label  lblAppSubtitle;
+        private Panel  panelAccentLine;
 
-        // Clients
-        private System.Windows.Forms.DataGridView dgvClients;
-        private System.Windows.Forms.GroupBox groupBoxClientDetails;
-        private System.Windows.Forms.Label lblClientID;
-        private System.Windows.Forms.TextBox txtClientID;
-        private System.Windows.Forms.Label lblClientSurname;
-        private System.Windows.Forms.TextBox txtClientSurname;
-        private System.Windows.Forms.Label lblClientName;
-        private System.Windows.Forms.TextBox txtClientName;
-        private System.Windows.Forms.Label lblClientPhone;
-        private System.Windows.Forms.TextBox txtClientPhone;
-        private System.Windows.Forms.Label lblClientAddress;
-        private System.Windows.Forms.TextBox txtClientAddress;
-        private System.Windows.Forms.GroupBox groupBoxClientOps;
-        private System.Windows.Forms.Button btnClientAdd;
-        private System.Windows.Forms.Button btnClientUpdate;
-        private System.Windows.Forms.Button btnClientDelete;
-        private System.Windows.Forms.Button btnClientRefresh;
-        private System.Windows.Forms.Button btnClientClear;
-        private System.Windows.Forms.GroupBox groupBoxClientSearch;
-        private System.Windows.Forms.Label lblClientSearch;
-        private System.Windows.Forms.TextBox txtClientSearch;
+        // ── TabControl ────────────────────────────────────────────────────────
+        private TabControl tabControlMain;
+        private TabPage    tabClients;
+        private TabPage    tabCars;
+        private TabPage    tabReports;
 
-        // Cars
-        private System.Windows.Forms.DataGridView dgvCars;
-        private System.Windows.Forms.GroupBox groupBoxCarDetails;
-        private System.Windows.Forms.Label lblCarID;
-        private System.Windows.Forms.TextBox txtCarID;
-        private System.Windows.Forms.Label lblCarBrand;
-        private System.Windows.Forms.TextBox txtCarBrand;
-        private System.Windows.Forms.Label lblCarModel;
-        private System.Windows.Forms.TextBox txtCarModel;
-        private System.Windows.Forms.Label lblCarYear;
-        private System.Windows.Forms.TextBox txtCarYear;
-        private System.Windows.Forms.Label lblCarGosNumber;
-        private System.Windows.Forms.TextBox txtCarGosNumber;
-        private System.Windows.Forms.Label lblCarClient;
-        private System.Windows.Forms.ComboBox cmbCarClient;
-        private System.Windows.Forms.GroupBox groupBoxCarOps;
-        private System.Windows.Forms.Button btnCarAdd;
-        private System.Windows.Forms.Button btnCarUpdate;
-        private System.Windows.Forms.Button btnCarDelete;
-        private System.Windows.Forms.Button btnCarRefresh;
-        private System.Windows.Forms.Button btnCarClear;
-        private System.Windows.Forms.GroupBox groupBoxCarSearch;
-        private System.Windows.Forms.Label lblCarSearch;
-        private System.Windows.Forms.TextBox txtCarSearch;
+        // ── Clients ───────────────────────────────────────────────────────────
+        private DataGridView dgvClients;
+        private GroupBox     groupBoxClientDetails;
+        private Label        lblClientID;
+        private TextBox      txtClientID;
+        private Label        lblClientSurname;
+        private TextBox      txtClientSurname;
+        private Label        lblClientName;
+        private TextBox      txtClientName;
+        private Label        lblClientPhone;
+        private TextBox      txtClientPhone;
+        private Label        lblClientAddress;
+        private TextBox      txtClientAddress;
+        private GroupBox     groupBoxClientOps;
+        private Button       btnClientAdd;
+        private Button       btnClientUpdate;
+        private Button       btnClientDelete;
+        private Button       btnClientRefresh;
+        private Button       btnClientClear;
+        private GroupBox     groupBoxClientSearch;
+        private Label        lblClientSearch;
+        private TextBox      txtClientSearch;
 
-        // Reports
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
-        private System.Windows.Forms.GroupBox groupBoxReportActions;
-        private System.Windows.Forms.Button btnGenerateReport;
-        private System.Windows.Forms.Button btnExportReport;
+        // ── Cars ──────────────────────────────────────────────────────────────
+        private DataGridView dgvCars;
+        private GroupBox     groupBoxCarDetails;
+        private Label        lblCarID;
+        private TextBox      txtCarID;
+        private Label        lblCarBrand;
+        private TextBox      txtCarBrand;
+        private Label        lblCarModel;
+        private TextBox      txtCarModel;
+        private Label        lblCarYear;
+        private TextBox      txtCarYear;
+        private Label        lblCarGosNumber;
+        private TextBox      txtCarGosNumber;
+        private Label        lblCarClient;
+        private ComboBox     cmbCarClient;
+        private GroupBox     groupBoxCarOps;
+        private Button       btnCarAdd;
+        private Button       btnCarUpdate;
+        private Button       btnCarDelete;
+        private Button       btnCarRefresh;
+        private Button       btnCarClear;
+        private GroupBox     groupBoxCarSearch;
+        private Label        lblCarSearch;
+        private TextBox      txtCarSearch;
+
+        // ── Reports ───────────────────────────────────────────────────────────
+        private ReportViewer reportViewer;
+        private GroupBox     groupBoxReportActions;
+        private Button       btnGenerateReport;
+        private Button       btnExportReport;
     }
 }
