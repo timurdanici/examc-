@@ -1,22 +1,11 @@
-using System;
-
 namespace exam.Models
 {
-    public class Category
+    public class Client
     {
-        public int CategoryID { get; set; }
-        public string CategoryName { get; set; }
-        public string Description { get; set; }
-        public DateTime CreatedDate { get; set; }
-
-        public Category() { }
-
-        public Category(int categoryID, string categoryName, string description, DateTime createdDate)
-        {
-            CategoryID = categoryID;
-            CategoryName = categoryName;
-            Description = description;
-            CreatedDate = createdDate;
-        }
+        public int Id_client { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Phonenumber { get; set; }
+        public string Address { get; set; }
     }
 }

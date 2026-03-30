@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:DataSourceID>1a2b3c4d-1234-5678-abcd-000000000001</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="ClientsCarsDataSet">
+      <Fields>
+        <Field Name="Surname"><DataField>Surname</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Name"><DataField>Name</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Phonenumber"><DataField>Phonenumber</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Address"><DataField>Address</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Brand"><DataField>Brand</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Model"><DataField>Model</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Release_Year"><DataField>Release_Year</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="Gos_number"><DataField>Gos_number</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="Title">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Список автомобилей по клиентам</Value>
+                    <Style><FontSize>14pt</FontSize><FontWeight>Bold</FontWeight></Style>
+                  </TextRun>
+                </TextRuns>
+                <Style><TextAlign>Center</TextAlign></Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0cm</Top><Left>0cm</Left><Height>0.8cm</Height><Width>18cm</Width>
+            <Style><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+          </Textbox>
+          <Tablix Name="Table1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>2.5cm</Width></TablixColumn>
+                <TablixColumn><Width>2cm</Width></TablixColumn>
+                <TablixColumn><Width>2.5cm</Width></TablixColumn>
+                <TablixColumn><Width>3cm</Width></TablixColumn>
+                <TablixColumn><Width>2cm</Width></TablixColumn>
+                <TablixColumn><Width>2cm</Width></TablixColumn>
+                <TablixColumn><Width>1.5cm</Width></TablixColumn>
+                <TablixColumn><Width>2.5cm</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrSurname">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Фамилия</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrName">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Имя</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrPhone">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Телефон</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrAddress">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Адрес</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrBrand">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Марка</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrModel">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Модель</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrYear">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Год</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="HdrGos">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Гос. номер</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BackgroundColor>LightSteelBlue</BackgroundColor><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatSurname">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Surname.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatName">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Name.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatPhone">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Phonenumber.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatAddress">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Address.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatBrand">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Brand.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatModel">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Model.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatYear">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Release_Year.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DatGos">
+                          <CanGrow>true</CanGrow><KeepTogether>true</KeepTogether>
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Gos_number.Value</Value><Style /></TextRun></TextRuns><Style /></Paragraph></Paragraphs>
+                          <Style><BorderStyle><Default>Solid</Default></BorderStyle><PaddingLeft>2pt</PaddingLeft><PaddingRight>2pt</PaddingRight><PaddingTop>2pt</PaddingTop><PaddingBottom>2pt</PaddingBottom></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember /><TablixMember /><TablixMember /><TablixMember />
+                <TablixMember /><TablixMember /><TablixMember /><TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Table1_Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>ClientsCarsDataSet</DataSetName>
+            <Top>1cm</Top><Left>0cm</Left>
+            <Height>1.2cm</Height><Width>18cm</Width>
+            <Style />
+          </Tablix>
+        </ReportItems>
+        <Height>3cm</Height>
+        <Style />
+      </Body>
+      <Width>18cm</Width>
+      <Page>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>1cm</TopMargin>
+        <BottomMargin>1cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>a1b2c3d4-0001-0002-0003-000000000001</rd:ReportID>
+</Report>

@@ -6,11 +6,11 @@ using System.Data;
 
 namespace exam.Services
 {
-    public class ProductRepository
+    public class CarRepository
     {
         private DatabaseConnection _db;
 
-        public ProductRepository()
+        public CarRepository()
         {
             _db = new DatabaseConnection();
         }
@@ -19,77 +19,70 @@ namespace exam.Services
         {
             try
             {
-                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
-                                 p.Price, p.Quantity, p.CreatedDate 
-                                 FROM Products p
-                                 JOIN Categories c ON p.CategoryID = c.CategoryID
-                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
-                                 ORDER BY p.ProductID DESC";
+                string query = @"SELECT c.Id_car, c.Brand, c.Model, YEAR(c.Release_Year) AS Release_Year,
+                                 c.Gos_number, cl.Surname, cl.Name, c.Id_Client
+                                 FROM cars c JOIN clients cl ON c.Id_Client = cl.Id_client
+                                 ORDER BY c.Id_car";
                 return _db.ExecuteSelect(query);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error retrieving products: " + ex.Message);
+                throw new Exception("Ошибка получения автомобилей: " + ex.Message);
             }
         }
 
-        public bool Add(Product product)
+        public bool Add(Car car)
         {
             try
             {
-                string query = @"INSERT INTO Products (ProductName, CategoryID, SupplierID, Price, Quantity) 
-                                 VALUES (@name, @catId, @suppId, @price, @qty)";
+                string query = "INSERT INTO cars (Brand, Model, Release_Year, Gos_number, Id_Client) VALUES (@brand, @model, @year, @gos, @client)";
                 MySqlParameter[] parameters = {
-                    new MySqlParameter("@name", product.ProductName),
-                    new MySqlParameter("@catId", product.CategoryID),
-                    new MySqlParameter("@suppId", product.SupplierID),
-                    new MySqlParameter("@price", product.Price),
-                    new MySqlParameter("@qty", product.Quantity)
+                    new MySqlParameter("@brand", car.Brand),
+                    new MySqlParameter("@model", car.Model),
+                    new MySqlParameter("@year", car.Release_Year),
+                    new MySqlParameter("@gos", car.Gos_number),
+                    new MySqlParameter("@client", car.Id_Client)
                 };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error adding product: " + ex.Message);
+                throw new Exception("Ошибка добавления автомобиля: " + ex.Message);
             }
         }
 
-        public bool Update(Product product)
+        public bool Update(Car car)
         {
             try
             {
-                string query = @"UPDATE Products SET ProductName = @name, CategoryID = @catId, 
-                                 SupplierID = @suppId, Price = @price, Quantity = @qty 
-                                 WHERE ProductID = @id";
+                string query = "UPDATE cars SET Brand=@brand, Model=@model, Release_Year=@year, Gos_number=@gos, Id_Client=@client WHERE Id_car=@id";
                 MySqlParameter[] parameters = {
-                    new MySqlParameter("@id", product.ProductID),
-                    new MySqlParameter("@name", product.ProductName),
-                    new MySqlParameter("@catId", product.CategoryID),
-                    new MySqlParameter("@suppId", product.SupplierID),
-                    new MySqlParameter("@price", product.Price),
-                    new MySqlParameter("@qty", product.Quantity)
+                    new MySqlParameter("@id", car.Id_car),
+                    new MySqlParameter("@brand", car.Brand),
+                    new MySqlParameter("@model", car.Model),
+                    new MySqlParameter("@year", car.Release_Year),
+                    new MySqlParameter("@gos", car.Gos_number),
+                    new MySqlParameter("@client", car.Id_Client)
                 };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error updating product: " + ex.Message);
+                throw new Exception("Ошибка обновления автомобиля: " + ex.Message);
             }
         }
 
-        public bool Delete(int productID)
+        public bool Delete(int id)
         {
             try
             {
-                string query = "DELETE FROM Products WHERE ProductID = @id";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@id", productID)
-                };
+                string query = "DELETE FROM cars WHERE Id_car=@id";
+                MySqlParameter[] parameters = { new MySqlParameter("@id", id) };
                 return _db.ExecuteNonQuery(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error deleting product: " + ex.Message);
+                throw new Exception("Ошибка удаления автомобиля: " + ex.Message);
             }
         }
 
@@ -97,87 +90,34 @@ namespace exam.Services
         {
             try
             {
-                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
-                                 p.Price, p.Quantity, p.CreatedDate 
-                                 FROM Products p
-                                 JOIN Categories c ON p.CategoryID = c.CategoryID
-                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
-                                 WHERE p.ProductName LIKE @keyword OR c.CategoryName LIKE @keyword 
-                                 OR s.SupplierName LIKE @keyword
-                                 ORDER BY p.ProductID DESC";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@keyword", "%" + keyword + "%")
-                };
+                string query = @"SELECT c.Id_car, c.Brand, c.Model, YEAR(c.Release_Year) AS Release_Year,
+                                 c.Gos_number, cl.Surname, cl.Name, c.Id_Client
+                                 FROM cars c JOIN clients cl ON c.Id_Client = cl.Id_client
+                                 WHERE c.Brand LIKE @kw OR c.Gos_number LIKE @kw
+                                 ORDER BY c.Id_car";
+                MySqlParameter[] parameters = { new MySqlParameter("@kw", "%" + keyword + "%") };
                 return _db.ExecuteSelect(query, parameters);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error searching products: " + ex.Message);
+                throw new Exception("Ошибка поиска автомобилей: " + ex.Message);
             }
         }
 
-        public DataTable GetByCategory(int categoryID)
+        public DataTable GetReportData()
         {
             try
             {
-                string query = @"SELECT p.ProductID, p.ProductName, c.CategoryName, s.SupplierName, 
-                                 p.Price, p.Quantity, p.CreatedDate 
-                                 FROM Products p
-                                 JOIN Categories c ON p.CategoryID = c.CategoryID
-                                 JOIN Suppliers s ON p.SupplierID = s.SupplierID
-                                 WHERE p.CategoryID = @catId ORDER BY p.ProductID DESC";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@catId", categoryID)
-                };
-                return _db.ExecuteSelect(query, parameters);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error filtering by category: " + ex.Message);
-            }
-        }
-
-        public DataTable GetAllCategories()
-        {
-            try
-            {
-                string query = "SELECT CategoryID, CategoryName FROM Categories ORDER BY CategoryName";
+                string query = @"SELECT cl.Surname, cl.Name, cl.Phonenumber, cl.Address,
+                                 c.Brand, c.Model, YEAR(c.Release_Year) AS Release_Year, c.Gos_number
+                                 FROM clients cl
+                                 LEFT JOIN cars c ON c.Id_Client = cl.Id_client
+                                 ORDER BY cl.Surname, cl.Name";
                 return _db.ExecuteSelect(query);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error retrieving categories: " + ex.Message);
-            }
-        }
-
-        public DataTable GetAllSuppliers()
-        {
-            try
-            {
-                string query = "SELECT SupplierID, SupplierName FROM Suppliers ORDER BY SupplierName";
-                return _db.ExecuteSelect(query);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error retrieving suppliers: " + ex.Message);
-            }
-        }
-
-        public DataTable GetByID(int productID)
-        {
-            try
-            {
-                string query = @"SELECT p.ProductID, p.ProductName, p.CategoryID, p.SupplierID, 
-                                 p.Price, p.Quantity, p.CreatedDate 
-                                 FROM Products p WHERE p.ProductID = @id";
-                MySqlParameter[] parameters = {
-                    new MySqlParameter("@id", productID)
-                };
-                return _db.ExecuteSelect(query, parameters);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error retrieving product: " + ex.Message);
+                throw new Exception("Ошибка получения данных отчёта: " + ex.Message);
             }
         }
     }

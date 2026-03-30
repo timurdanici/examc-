@@ -19,647 +19,554 @@ namespace exam
         private void InitializeComponent()
         {
             this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabProducts = new System.Windows.Forms.TabPage();
-            this.tabCategories = new System.Windows.Forms.TabPage();
-            this.tabSuppliers = new System.Windows.Forms.TabPage();
+            this.tabClients = new System.Windows.Forms.TabPage();
+            this.tabCars = new System.Windows.Forms.TabPage();
             this.tabReports = new System.Windows.Forms.TabPage();
-            this.dgvProducts = new System.Windows.Forms.DataGridView();
-            this.groupBoxProductDetails = new System.Windows.Forms.GroupBox();
-            this.cmbProductSupplier = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtProductCreatedDate = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtProductQuantity = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtProductPrice = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbProductCategory = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtProductName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtProductID = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBoxProductOps = new System.Windows.Forms.GroupBox();
-            this.btnProductRefresh = new System.Windows.Forms.Button();
-            this.btnProductDelete = new System.Windows.Forms.Button();
-            this.btnProductUpdate = new System.Windows.Forms.Button();
-            this.btnProductAdd = new System.Windows.Forms.Button();
-            this.groupBoxProductFilter = new System.Windows.Forms.GroupBox();
-            this.txtProductSearch = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.dgvCategories = new System.Windows.Forms.DataGridView();
-            this.groupBoxCategoryDetails = new System.Windows.Forms.GroupBox();
-            this.txtCategoryCreatedDate = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtCategoryDesc = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtCategoryName = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtCategoryID = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.groupBoxCategoryOps = new System.Windows.Forms.GroupBox();
-            this.btnCategoryRefresh = new System.Windows.Forms.Button();
-            this.btnCategoryDelete = new System.Windows.Forms.Button();
-            this.btnCategoryUpdate = new System.Windows.Forms.Button();
-            this.btnCategoryAdd = new System.Windows.Forms.Button();
-            this.groupBoxCategoryFilter = new System.Windows.Forms.GroupBox();
-            this.txtCategorySearch = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.dgvSuppliers = new System.Windows.Forms.DataGridView();
-            this.groupBoxSupplierDetails = new System.Windows.Forms.GroupBox();
-            this.txtSupplierCreatedDate = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtSupplierPhone = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.txtSupplierEmail = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtSupplierContact = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.txtSupplierName = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtSupplierID = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.groupBoxSupplierOps = new System.Windows.Forms.GroupBox();
-            this.btnSupplierRefresh = new System.Windows.Forms.Button();
-            this.btnSupplierDelete = new System.Windows.Forms.Button();
-            this.btnSupplierUpdate = new System.Windows.Forms.Button();
-            this.btnSupplierAdd = new System.Windows.Forms.Button();
-            this.groupBoxSupplierFilter = new System.Windows.Forms.GroupBox();
-            this.txtSupplierSearch = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
+
+            // Clients tab controls
+            this.dgvClients = new System.Windows.Forms.DataGridView();
+            this.groupBoxClientDetails = new System.Windows.Forms.GroupBox();
+            this.lblClientID = new System.Windows.Forms.Label();
+            this.txtClientID = new System.Windows.Forms.TextBox();
+            this.lblClientSurname = new System.Windows.Forms.Label();
+            this.txtClientSurname = new System.Windows.Forms.TextBox();
+            this.lblClientName = new System.Windows.Forms.Label();
+            this.txtClientName = new System.Windows.Forms.TextBox();
+            this.lblClientPhone = new System.Windows.Forms.Label();
+            this.txtClientPhone = new System.Windows.Forms.TextBox();
+            this.lblClientAddress = new System.Windows.Forms.Label();
+            this.txtClientAddress = new System.Windows.Forms.TextBox();
+            this.groupBoxClientOps = new System.Windows.Forms.GroupBox();
+            this.btnClientAdd = new System.Windows.Forms.Button();
+            this.btnClientUpdate = new System.Windows.Forms.Button();
+            this.btnClientDelete = new System.Windows.Forms.Button();
+            this.btnClientRefresh = new System.Windows.Forms.Button();
+            this.btnClientClear = new System.Windows.Forms.Button();
+            this.groupBoxClientSearch = new System.Windows.Forms.GroupBox();
+            this.lblClientSearch = new System.Windows.Forms.Label();
+            this.txtClientSearch = new System.Windows.Forms.TextBox();
+
+            // Cars tab controls
+            this.dgvCars = new System.Windows.Forms.DataGridView();
+            this.groupBoxCarDetails = new System.Windows.Forms.GroupBox();
+            this.lblCarID = new System.Windows.Forms.Label();
+            this.txtCarID = new System.Windows.Forms.TextBox();
+            this.lblCarBrand = new System.Windows.Forms.Label();
+            this.txtCarBrand = new System.Windows.Forms.TextBox();
+            this.lblCarModel = new System.Windows.Forms.Label();
+            this.txtCarModel = new System.Windows.Forms.TextBox();
+            this.lblCarYear = new System.Windows.Forms.Label();
+            this.txtCarYear = new System.Windows.Forms.TextBox();
+            this.lblCarGosNumber = new System.Windows.Forms.Label();
+            this.txtCarGosNumber = new System.Windows.Forms.TextBox();
+            this.lblCarClient = new System.Windows.Forms.Label();
+            this.cmbCarClient = new System.Windows.Forms.ComboBox();
+            this.groupBoxCarOps = new System.Windows.Forms.GroupBox();
+            this.btnCarAdd = new System.Windows.Forms.Button();
+            this.btnCarUpdate = new System.Windows.Forms.Button();
+            this.btnCarDelete = new System.Windows.Forms.Button();
+            this.btnCarRefresh = new System.Windows.Forms.Button();
+            this.btnCarClear = new System.Windows.Forms.Button();
+            this.groupBoxCarSearch = new System.Windows.Forms.GroupBox();
+            this.lblCarSearch = new System.Windows.Forms.Label();
+            this.txtCarSearch = new System.Windows.Forms.TextBox();
+
+            // Reports tab controls
             this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.groupBoxReportFilters = new System.Windows.Forms.GroupBox();
-            this.cmbReportType = new System.Windows.Forms.ComboBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.btnGenerateReport = new System.Windows.Forms.Button();
             this.groupBoxReportActions = new System.Windows.Forms.GroupBox();
+            this.btnGenerateReport = new System.Windows.Forms.Button();
             this.btnExportReport = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCategories)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).BeginInit();
+
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCars)).BeginInit();
             this.tabControlMain.SuspendLayout();
-            this.tabProducts.SuspendLayout();
-            this.tabCategories.SuspendLayout();
-            this.tabSuppliers.SuspendLayout();
+            this.tabClients.SuspendLayout();
+            this.tabCars.SuspendLayout();
             this.tabReports.SuspendLayout();
-            this.groupBoxProductDetails.SuspendLayout();
-            this.groupBoxProductOps.SuspendLayout();
-            this.groupBoxProductFilter.SuspendLayout();
-            this.groupBoxCategoryDetails.SuspendLayout();
-            this.groupBoxCategoryOps.SuspendLayout();
-            this.groupBoxCategoryFilter.SuspendLayout();
-            this.groupBoxSupplierDetails.SuspendLayout();
-            this.groupBoxSupplierOps.SuspendLayout();
-            this.groupBoxSupplierFilter.SuspendLayout();
-            this.groupBoxReportFilters.SuspendLayout();
-            this.groupBoxReportActions.SuspendLayout();
             this.SuspendLayout();
-            
-            this.tabControlMain.Controls.Add(this.tabProducts);
-            this.tabControlMain.Controls.Add(this.tabCategories);
-            this.tabControlMain.Controls.Add(this.tabSuppliers);
+
+            // tabControlMain
+            this.tabControlMain.Controls.Add(this.tabClients);
+            this.tabControlMain.Controls.Add(this.tabCars);
             this.tabControlMain.Controls.Add(this.tabReports);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlMain.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(1000, 650);
+            this.tabControlMain.Size = new System.Drawing.Size(1150, 680);
             this.tabControlMain.TabIndex = 0;
-            
-            this.tabProducts.Controls.Add(this.groupBoxProductFilter);
-            this.tabProducts.Controls.Add(this.groupBoxProductOps);
-            this.tabProducts.Controls.Add(this.groupBoxProductDetails);
-            this.tabProducts.Controls.Add(this.dgvProducts);
-            this.tabProducts.Location = new System.Drawing.Point(4, 22);
-            this.tabProducts.Name = "tabProducts";
-            this.tabProducts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProducts.Size = new System.Drawing.Size(992, 624);
-            this.tabProducts.TabIndex = 0;
-            this.tabProducts.Text = "Products";
-            this.tabProducts.UseVisualStyleBackColor = true;
-            
-            this.dgvProducts.AllowUserToAddRows = false;
-            this.dgvProducts.AllowUserToDeleteRows = false;
-            this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProducts.Location = new System.Drawing.Point(12, 330);
-            this.dgvProducts.Name = "dgvProducts";
-            this.dgvProducts.ReadOnly = true;
-            this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(968, 280);
-            this.dgvProducts.TabIndex = 1;
-            this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
-            
-            this.groupBoxProductDetails.Controls.Add(this.cmbProductSupplier);
-            this.groupBoxProductDetails.Controls.Add(this.label10);
-            this.groupBoxProductDetails.Controls.Add(this.txtProductCreatedDate);
-            this.groupBoxProductDetails.Controls.Add(this.label7);
-            this.groupBoxProductDetails.Controls.Add(this.txtProductQuantity);
-            this.groupBoxProductDetails.Controls.Add(this.label6);
-            this.groupBoxProductDetails.Controls.Add(this.txtProductPrice);
-            this.groupBoxProductDetails.Controls.Add(this.label5);
-            this.groupBoxProductDetails.Controls.Add(this.cmbProductCategory);
-            this.groupBoxProductDetails.Controls.Add(this.label4);
-            this.groupBoxProductDetails.Controls.Add(this.txtProductName);
-            this.groupBoxProductDetails.Controls.Add(this.label3);
-            this.groupBoxProductDetails.Controls.Add(this.txtProductID);
-            this.groupBoxProductDetails.Controls.Add(this.label2);
-            this.groupBoxProductDetails.Location = new System.Drawing.Point(12, 15);
-            this.groupBoxProductDetails.Name = "groupBoxProductDetails";
-            this.groupBoxProductDetails.Size = new System.Drawing.Size(500, 280);
-            this.groupBoxProductDetails.TabIndex = 2;
-            this.groupBoxProductDetails.TabStop = false;
-            this.groupBoxProductDetails.Text = "Product Details";
-            
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 33);
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.Text = "Product ID:";
-            this.txtProductID.Location = new System.Drawing.Point(120, 30);
-            this.txtProductID.Name = "txtProductID";
-            this.txtProductID.ReadOnly = true;
-            this.txtProductID.Size = new System.Drawing.Size(360, 20);
-            
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 63);
-            this.label3.Size = new System.Drawing.Size(81, 13);
-            this.label3.Text = "Product Name:";
-            this.txtProductName.Location = new System.Drawing.Point(120, 60);
-            this.txtProductName.Size = new System.Drawing.Size(360, 20);
-            
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 93);
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.Text = "Category:";
-            this.cmbProductCategory.FormattingEnabled = true;
-            this.cmbProductCategory.Location = new System.Drawing.Point(120, 90);
-            this.cmbProductCategory.Size = new System.Drawing.Size(360, 21);
-            
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 123);
-            this.label10.Size = new System.Drawing.Size(52, 13);
-            this.label10.Text = "Supplier:";
-            this.cmbProductSupplier.FormattingEnabled = true;
-            this.cmbProductSupplier.Location = new System.Drawing.Point(120, 120);
-            this.cmbProductSupplier.Size = new System.Drawing.Size(360, 21);
-            
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 153);
-            this.label5.Size = new System.Drawing.Size(37, 13);
-            this.label5.Text = "Price:";
-            this.txtProductPrice.Location = new System.Drawing.Point(120, 150);
-            this.txtProductPrice.Size = new System.Drawing.Size(360, 20);
-            
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 183);
-            this.label6.Size = new System.Drawing.Size(53, 13);
-            this.label6.Text = "Quantity:";
-            this.txtProductQuantity.Location = new System.Drawing.Point(120, 180);
-            this.txtProductQuantity.Size = new System.Drawing.Size(360, 20);
-            
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 213);
-            this.label7.Size = new System.Drawing.Size(75, 13);
-            this.label7.Text = "Created Date:";
-            this.txtProductCreatedDate.Location = new System.Drawing.Point(120, 210);
-            this.txtProductCreatedDate.Name = "txtProductCreatedDate";
-            this.txtProductCreatedDate.ReadOnly = true;
-            this.txtProductCreatedDate.Size = new System.Drawing.Size(360, 20);
-            
-            this.groupBoxProductOps.Controls.Add(this.btnProductRefresh);
-            this.groupBoxProductOps.Controls.Add(this.btnProductDelete);
-            this.groupBoxProductOps.Controls.Add(this.btnProductUpdate);
-            this.groupBoxProductOps.Controls.Add(this.btnProductAdd);
-            this.groupBoxProductOps.Location = new System.Drawing.Point(530, 15);
-            this.groupBoxProductOps.Size = new System.Drawing.Size(450, 140);
-            this.groupBoxProductOps.Text = "Operations";
-            
-            this.btnProductAdd.Location = new System.Drawing.Point(15, 30);
-            this.btnProductAdd.Size = new System.Drawing.Size(100, 35);
-            this.btnProductAdd.Text = "Add";
-            this.btnProductAdd.Click += new System.EventHandler(this.btnProductAdd_Click);
-            
-            this.btnProductUpdate.Location = new System.Drawing.Point(130, 30);
-            this.btnProductUpdate.Size = new System.Drawing.Size(100, 35);
-            this.btnProductUpdate.Text = "Update";
-            this.btnProductUpdate.Click += new System.EventHandler(this.btnProductUpdate_Click);
-            
-            this.btnProductDelete.Location = new System.Drawing.Point(245, 30);
-            this.btnProductDelete.Size = new System.Drawing.Size(100, 35);
-            this.btnProductDelete.Text = "Delete";
-            this.btnProductDelete.Click += new System.EventHandler(this.btnProductDelete_Click);
-            
-            this.btnProductRefresh.Location = new System.Drawing.Point(360, 30);
-            this.btnProductRefresh.Size = new System.Drawing.Size(75, 35);
-            this.btnProductRefresh.Text = "Refresh";
-            this.btnProductRefresh.Click += new System.EventHandler(this.btnProductRefresh_Click);
-            
-            this.groupBoxProductFilter.Controls.Add(this.txtProductSearch);
-            this.groupBoxProductFilter.Controls.Add(this.label8);
-            this.groupBoxProductFilter.Location = new System.Drawing.Point(530, 160);
-            this.groupBoxProductFilter.Size = new System.Drawing.Size(450, 135);
-            this.groupBoxProductFilter.Text = "Search";
-            
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 15);
-            this.label8.Size = new System.Drawing.Size(44, 13);
-            this.label8.Text = "Search:";
-            this.txtProductSearch.Location = new System.Drawing.Point(15, 35);
-            this.txtProductSearch.Size = new System.Drawing.Size(420, 20);
-            this.txtProductSearch.TextChanged += new System.EventHandler(this.txtProductSearch_TextChanged);
-            
-            // CATEGORIES TAB
-            this.tabCategories.Controls.Add(this.groupBoxCategoryFilter);
-            this.tabCategories.Controls.Add(this.groupBoxCategoryOps);
-            this.tabCategories.Controls.Add(this.groupBoxCategoryDetails);
-            this.tabCategories.Controls.Add(this.dgvCategories);
-            this.tabCategories.Location = new System.Drawing.Point(4, 22);
-            this.tabCategories.Name = "tabCategories";
-            this.tabCategories.Size = new System.Drawing.Size(992, 624);
-            this.tabCategories.TabIndex = 1;
-            this.tabCategories.Text = "Categories";
-            this.tabCategories.UseVisualStyleBackColor = true;
-            
-            this.dgvCategories.AllowUserToAddRows = false;
-            this.dgvCategories.AllowUserToDeleteRows = false;
-            this.dgvCategories.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCategories.Location = new System.Drawing.Point(12, 250);
-            this.dgvCategories.Name = "dgvCategories";
-            this.dgvCategories.ReadOnly = true;
-            this.dgvCategories.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCategories.Size = new System.Drawing.Size(968, 360);
-            this.dgvCategories.TabIndex = 1;
-            this.dgvCategories.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCategories_CellClick);
-            
-            this.groupBoxCategoryDetails.Controls.Add(this.txtCategoryCreatedDate);
-            this.groupBoxCategoryDetails.Controls.Add(this.label11);
-            this.groupBoxCategoryDetails.Controls.Add(this.txtCategoryDesc);
-            this.groupBoxCategoryDetails.Controls.Add(this.label12);
-            this.groupBoxCategoryDetails.Controls.Add(this.txtCategoryName);
-            this.groupBoxCategoryDetails.Controls.Add(this.label13);
-            this.groupBoxCategoryDetails.Controls.Add(this.txtCategoryID);
-            this.groupBoxCategoryDetails.Controls.Add(this.label14);
-            this.groupBoxCategoryDetails.Location = new System.Drawing.Point(12, 15);
-            this.groupBoxCategoryDetails.Size = new System.Drawing.Size(500, 150);
-            this.groupBoxCategoryDetails.Text = "Category Details";
-            
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(10, 28);
-            this.label14.Size = new System.Drawing.Size(72, 13);
-            this.label14.Text = "Category ID:";
-            this.txtCategoryID.Location = new System.Drawing.Point(120, 25);
-            this.txtCategoryID.ReadOnly = true;
-            this.txtCategoryID.Size = new System.Drawing.Size(360, 20);
-            
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 58);
-            this.label13.Size = new System.Drawing.Size(89, 13);
-            this.label13.Text = "Category Name:";
-            this.txtCategoryName.Location = new System.Drawing.Point(120, 55);
-            this.txtCategoryName.Size = new System.Drawing.Size(360, 20);
-            
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(10, 88);
-            this.label12.Size = new System.Drawing.Size(63, 13);
-            this.label12.Text = "Description:";
-            this.txtCategoryDesc.Location = new System.Drawing.Point(120, 85);
-            this.txtCategoryDesc.Size = new System.Drawing.Size(360, 20);
-            
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(10, 118);
-            this.label11.Size = new System.Drawing.Size(75, 13);
-            this.label11.Text = "Created Date:";
-            this.txtCategoryCreatedDate.Location = new System.Drawing.Point(120, 115);
-            this.txtCategoryCreatedDate.ReadOnly = true;
-            this.txtCategoryCreatedDate.Size = new System.Drawing.Size(360, 20);
-            
-            this.groupBoxCategoryOps.Controls.Add(this.btnCategoryRefresh);
-            this.groupBoxCategoryOps.Controls.Add(this.btnCategoryDelete);
-            this.groupBoxCategoryOps.Controls.Add(this.btnCategoryUpdate);
-            this.groupBoxCategoryOps.Controls.Add(this.btnCategoryAdd);
-            this.groupBoxCategoryOps.Location = new System.Drawing.Point(530, 15);
-            this.groupBoxCategoryOps.Size = new System.Drawing.Size(450, 90);
-            this.groupBoxCategoryOps.Text = "Operations";
-            
-            this.btnCategoryAdd.Location = new System.Drawing.Point(15, 30);
-            this.btnCategoryAdd.Size = new System.Drawing.Size(100, 35);
-            this.btnCategoryAdd.Text = "Add";
-            this.btnCategoryAdd.Click += new System.EventHandler(this.btnCategoryAdd_Click);
-            
-            this.btnCategoryUpdate.Location = new System.Drawing.Point(130, 30);
-            this.btnCategoryUpdate.Size = new System.Drawing.Size(100, 35);
-            this.btnCategoryUpdate.Text = "Update";
-            this.btnCategoryUpdate.Click += new System.EventHandler(this.btnCategoryUpdate_Click);
-            
-            this.btnCategoryDelete.Location = new System.Drawing.Point(245, 30);
-            this.btnCategoryDelete.Size = new System.Drawing.Size(100, 35);
-            this.btnCategoryDelete.Text = "Delete";
-            this.btnCategoryDelete.Click += new System.EventHandler(this.btnCategoryDelete_Click);
-            
-            this.btnCategoryRefresh.Location = new System.Drawing.Point(360, 30);
-            this.btnCategoryRefresh.Size = new System.Drawing.Size(75, 35);
-            this.btnCategoryRefresh.Text = "Refresh";
-            this.btnCategoryRefresh.Click += new System.EventHandler(this.btnCategoryRefresh_Click);
-            
-            this.groupBoxCategoryFilter.Controls.Add(this.txtCategorySearch);
-            this.groupBoxCategoryFilter.Controls.Add(this.label15);
-            this.groupBoxCategoryFilter.Location = new System.Drawing.Point(530, 115);
-            this.groupBoxCategoryFilter.Size = new System.Drawing.Size(450, 70);
-            this.groupBoxCategoryFilter.Text = "Search";
-            
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(15, 15);
-            this.label15.Size = new System.Drawing.Size(44, 13);
-            this.label15.Text = "Search:";
-            this.txtCategorySearch.Location = new System.Drawing.Point(15, 35);
-            this.txtCategorySearch.Size = new System.Drawing.Size(420, 20);
-            this.txtCategorySearch.TextChanged += new System.EventHandler(this.txtCategorySearch_TextChanged);
-            
-            // SUPPLIERS TAB
-            this.tabSuppliers.Controls.Add(this.groupBoxSupplierFilter);
-            this.tabSuppliers.Controls.Add(this.groupBoxSupplierOps);
-            this.tabSuppliers.Controls.Add(this.groupBoxSupplierDetails);
-            this.tabSuppliers.Controls.Add(this.dgvSuppliers);
-            this.tabSuppliers.Location = new System.Drawing.Point(4, 22);
-            this.tabSuppliers.Name = "tabSuppliers";
-            this.tabSuppliers.Size = new System.Drawing.Size(992, 624);
-            this.tabSuppliers.TabIndex = 2;
-            this.tabSuppliers.Text = "Suppliers";
-            this.tabSuppliers.UseVisualStyleBackColor = true;
-            
-            this.dgvSuppliers.AllowUserToAddRows = false;
-            this.dgvSuppliers.AllowUserToDeleteRows = false;
-            this.dgvSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSuppliers.Location = new System.Drawing.Point(12, 270);
-            this.dgvSuppliers.Name = "dgvSuppliers";
-            this.dgvSuppliers.ReadOnly = true;
-            this.dgvSuppliers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSuppliers.Size = new System.Drawing.Size(968, 340);
-            this.dgvSuppliers.TabIndex = 1;
-            this.dgvSuppliers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSuppliers_CellClick);
-            
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierCreatedDate);
-            this.groupBoxSupplierDetails.Controls.Add(this.label16);
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierPhone);
-            this.groupBoxSupplierDetails.Controls.Add(this.label17);
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierEmail);
-            this.groupBoxSupplierDetails.Controls.Add(this.label18);
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierContact);
-            this.groupBoxSupplierDetails.Controls.Add(this.label19);
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierName);
-            this.groupBoxSupplierDetails.Controls.Add(this.label20);
-            this.groupBoxSupplierDetails.Controls.Add(this.txtSupplierID);
-            this.groupBoxSupplierDetails.Controls.Add(this.label21);
-            this.groupBoxSupplierDetails.Location = new System.Drawing.Point(12, 15);
-            this.groupBoxSupplierDetails.Size = new System.Drawing.Size(500, 180);
-            this.groupBoxSupplierDetails.Text = "Supplier Details";
-            
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(10, 28);
-            this.label21.Size = new System.Drawing.Size(68, 13);
-            this.label21.Text = "Supplier ID:";
-            this.txtSupplierID.Location = new System.Drawing.Point(120, 25);
-            this.txtSupplierID.ReadOnly = true;
-            this.txtSupplierID.Size = new System.Drawing.Size(360, 20);
-            
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(10, 58);
-            this.label20.Size = new System.Drawing.Size(86, 13);
-            this.label20.Text = "Supplier Name:";
-            this.txtSupplierName.Location = new System.Drawing.Point(120, 55);
-            this.txtSupplierName.Size = new System.Drawing.Size(360, 20);
-            
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(10, 88);
-            this.label19.Size = new System.Drawing.Size(92, 13);
-            this.label19.Text = "Contact Person:";
-            this.txtSupplierContact.Location = new System.Drawing.Point(120, 85);
-            this.txtSupplierContact.Size = new System.Drawing.Size(360, 20);
-            
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 118);
-            this.label18.Size = new System.Drawing.Size(35, 13);
-            this.label18.Text = "Email:";
-            this.txtSupplierEmail.Location = new System.Drawing.Point(120, 115);
-            this.txtSupplierEmail.Size = new System.Drawing.Size(360, 20);
-            
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(10, 148);
-            this.label17.Size = new System.Drawing.Size(41, 13);
-            this.label17.Text = "Phone:";
-            this.txtSupplierPhone.Location = new System.Drawing.Point(120, 145);
-            this.txtSupplierPhone.Size = new System.Drawing.Size(360, 20);
-            
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(10, 153);
-            this.label16.Size = new System.Drawing.Size(75, 13);
-            this.label16.Text = "Created Date:";
-            this.txtSupplierCreatedDate.Location = new System.Drawing.Point(120, 150);
-            this.txtSupplierCreatedDate.ReadOnly = true;
-            this.txtSupplierCreatedDate.Size = new System.Drawing.Size(360, 20);
-            
-            this.groupBoxSupplierOps.Controls.Add(this.btnSupplierRefresh);
-            this.groupBoxSupplierOps.Controls.Add(this.btnSupplierDelete);
-            this.groupBoxSupplierOps.Controls.Add(this.btnSupplierUpdate);
-            this.groupBoxSupplierOps.Controls.Add(this.btnSupplierAdd);
-            this.groupBoxSupplierOps.Location = new System.Drawing.Point(530, 15);
-            this.groupBoxSupplierOps.Size = new System.Drawing.Size(450, 90);
-            this.groupBoxSupplierOps.Text = "Operations";
-            
-            this.btnSupplierAdd.Location = new System.Drawing.Point(15, 30);
-            this.btnSupplierAdd.Size = new System.Drawing.Size(100, 35);
-            this.btnSupplierAdd.Text = "Add";
-            this.btnSupplierAdd.Click += new System.EventHandler(this.btnSupplierAdd_Click);
-            
-            this.btnSupplierUpdate.Location = new System.Drawing.Point(130, 30);
-            this.btnSupplierUpdate.Size = new System.Drawing.Size(100, 35);
-            this.btnSupplierUpdate.Text = "Update";
-            this.btnSupplierUpdate.Click += new System.EventHandler(this.btnSupplierUpdate_Click);
-            
-            this.btnSupplierDelete.Location = new System.Drawing.Point(245, 30);
-            this.btnSupplierDelete.Size = new System.Drawing.Size(100, 35);
-            this.btnSupplierDelete.Text = "Delete";
-            this.btnSupplierDelete.Click += new System.EventHandler(this.btnSupplierDelete_Click);
-            
-            this.btnSupplierRefresh.Location = new System.Drawing.Point(360, 30);
-            this.btnSupplierRefresh.Size = new System.Drawing.Size(75, 35);
-            this.btnSupplierRefresh.Text = "Refresh";
-            this.btnSupplierRefresh.Click += new System.EventHandler(this.btnSupplierRefresh_Click);
-            
-            this.groupBoxSupplierFilter.Controls.Add(this.txtSupplierSearch);
-            this.groupBoxSupplierFilter.Controls.Add(this.label22);
-            this.groupBoxSupplierFilter.Location = new System.Drawing.Point(530, 115);
-            this.groupBoxSupplierFilter.Size = new System.Drawing.Size(450, 80);
-            this.groupBoxSupplierFilter.Text = "Search";
-            
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(15, 15);
-            this.label22.Size = new System.Drawing.Size(44, 13);
-            this.label22.Text = "Search:";
-            this.txtSupplierSearch.Location = new System.Drawing.Point(15, 35);
-            this.txtSupplierSearch.Size = new System.Drawing.Size(420, 20);
-            this.txtSupplierSearch.TextChanged += new System.EventHandler(this.txtSupplierSearch_TextChanged);
 
-            // REPORTS TAB
+            // ==================== CLIENTS TAB ====================
+            this.tabClients.Controls.Add(this.dgvClients);
+            this.tabClients.Controls.Add(this.groupBoxClientDetails);
+            this.tabClients.Controls.Add(this.groupBoxClientOps);
+            this.tabClients.Controls.Add(this.groupBoxClientSearch);
+            this.tabClients.Location = new System.Drawing.Point(4, 28);
+            this.tabClients.Name = "tabClients";
+            this.tabClients.Padding = new System.Windows.Forms.Padding(3);
+            this.tabClients.Size = new System.Drawing.Size(1142, 648);
+            this.tabClients.TabIndex = 0;
+            this.tabClients.Text = "Клиенты";
+            this.tabClients.UseVisualStyleBackColor = true;
+
+            // groupBoxClientSearch
+            this.groupBoxClientSearch.Controls.Add(this.lblClientSearch);
+            this.groupBoxClientSearch.Controls.Add(this.txtClientSearch);
+            this.groupBoxClientSearch.Location = new System.Drawing.Point(8, 8);
+            this.groupBoxClientSearch.Name = "groupBoxClientSearch";
+            this.groupBoxClientSearch.Size = new System.Drawing.Size(730, 50);
+            this.groupBoxClientSearch.TabIndex = 0;
+            this.groupBoxClientSearch.Text = "Поиск";
+
+            this.lblClientSearch.AutoSize = true;
+            this.lblClientSearch.Location = new System.Drawing.Point(8, 20);
+            this.lblClientSearch.Name = "lblClientSearch";
+            this.lblClientSearch.Text = "Поиск:";
+
+            this.txtClientSearch.Location = new System.Drawing.Point(65, 17);
+            this.txtClientSearch.Name = "txtClientSearch";
+            this.txtClientSearch.Size = new System.Drawing.Size(650, 26);
+            this.txtClientSearch.TabIndex = 1;
+            this.txtClientSearch.TextChanged += new System.EventHandler(this.txtClientSearch_TextChanged);
+
+            // dgvClients
+            this.dgvClients.AllowUserToAddRows = false;
+            this.dgvClients.AllowUserToDeleteRows = false;
+            this.dgvClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClients.Location = new System.Drawing.Point(8, 65);
+            this.dgvClients.MultiSelect = false;
+            this.dgvClients.Name = "dgvClients";
+            this.dgvClients.ReadOnly = true;
+            this.dgvClients.RowHeadersWidth = 51;
+            this.dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvClients.Size = new System.Drawing.Size(730, 570);
+            this.dgvClients.TabIndex = 1;
+            this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellClick);
+
+            // groupBoxClientDetails
+            this.groupBoxClientDetails.Controls.Add(this.lblClientID);
+            this.groupBoxClientDetails.Controls.Add(this.txtClientID);
+            this.groupBoxClientDetails.Controls.Add(this.lblClientSurname);
+            this.groupBoxClientDetails.Controls.Add(this.txtClientSurname);
+            this.groupBoxClientDetails.Controls.Add(this.lblClientName);
+            this.groupBoxClientDetails.Controls.Add(this.txtClientName);
+            this.groupBoxClientDetails.Controls.Add(this.lblClientPhone);
+            this.groupBoxClientDetails.Controls.Add(this.txtClientPhone);
+            this.groupBoxClientDetails.Controls.Add(this.lblClientAddress);
+            this.groupBoxClientDetails.Controls.Add(this.txtClientAddress);
+            this.groupBoxClientDetails.Location = new System.Drawing.Point(750, 8);
+            this.groupBoxClientDetails.Name = "groupBoxClientDetails";
+            this.groupBoxClientDetails.Size = new System.Drawing.Size(380, 330);
+            this.groupBoxClientDetails.TabIndex = 2;
+            this.groupBoxClientDetails.Text = "Данные клиента";
+
+            this.lblClientID.AutoSize = true;
+            this.lblClientID.Location = new System.Drawing.Point(10, 30);
+            this.lblClientID.Name = "lblClientID";
+            this.lblClientID.Text = "ID:";
+
+            this.txtClientID.Location = new System.Drawing.Point(130, 27);
+            this.txtClientID.Name = "txtClientID";
+            this.txtClientID.ReadOnly = true;
+            this.txtClientID.Size = new System.Drawing.Size(230, 26);
+            this.txtClientID.TabIndex = 0;
+
+            this.lblClientSurname.AutoSize = true;
+            this.lblClientSurname.Location = new System.Drawing.Point(10, 70);
+            this.lblClientSurname.Name = "lblClientSurname";
+            this.lblClientSurname.Text = "Фамилия:";
+
+            this.txtClientSurname.Location = new System.Drawing.Point(130, 67);
+            this.txtClientSurname.Name = "txtClientSurname";
+            this.txtClientSurname.Size = new System.Drawing.Size(230, 26);
+            this.txtClientSurname.TabIndex = 1;
+
+            this.lblClientName.AutoSize = true;
+            this.lblClientName.Location = new System.Drawing.Point(10, 110);
+            this.lblClientName.Name = "lblClientName";
+            this.lblClientName.Text = "Имя:";
+
+            this.txtClientName.Location = new System.Drawing.Point(130, 107);
+            this.txtClientName.Name = "txtClientName";
+            this.txtClientName.Size = new System.Drawing.Size(230, 26);
+            this.txtClientName.TabIndex = 2;
+
+            this.lblClientPhone.AutoSize = true;
+            this.lblClientPhone.Location = new System.Drawing.Point(10, 150);
+            this.lblClientPhone.Name = "lblClientPhone";
+            this.lblClientPhone.Text = "Телефон:";
+
+            this.txtClientPhone.Location = new System.Drawing.Point(130, 147);
+            this.txtClientPhone.Name = "txtClientPhone";
+            this.txtClientPhone.Size = new System.Drawing.Size(230, 26);
+            this.txtClientPhone.TabIndex = 3;
+
+            this.lblClientAddress.AutoSize = true;
+            this.lblClientAddress.Location = new System.Drawing.Point(10, 190);
+            this.lblClientAddress.Name = "lblClientAddress";
+            this.lblClientAddress.Text = "Адрес:";
+
+            this.txtClientAddress.Location = new System.Drawing.Point(130, 187);
+            this.txtClientAddress.Name = "txtClientAddress";
+            this.txtClientAddress.Size = new System.Drawing.Size(230, 26);
+            this.txtClientAddress.TabIndex = 4;
+
+            // groupBoxClientOps
+            this.groupBoxClientOps.Controls.Add(this.btnClientAdd);
+            this.groupBoxClientOps.Controls.Add(this.btnClientUpdate);
+            this.groupBoxClientOps.Controls.Add(this.btnClientDelete);
+            this.groupBoxClientOps.Controls.Add(this.btnClientRefresh);
+            this.groupBoxClientOps.Controls.Add(this.btnClientClear);
+            this.groupBoxClientOps.Location = new System.Drawing.Point(750, 350);
+            this.groupBoxClientOps.Name = "groupBoxClientOps";
+            this.groupBoxClientOps.Size = new System.Drawing.Size(380, 285);
+            this.groupBoxClientOps.TabIndex = 3;
+            this.groupBoxClientOps.Text = "Операции";
+
+            this.btnClientAdd.Location = new System.Drawing.Point(10, 30);
+            this.btnClientAdd.Name = "btnClientAdd";
+            this.btnClientAdd.Size = new System.Drawing.Size(355, 40);
+            this.btnClientAdd.TabIndex = 0;
+            this.btnClientAdd.Text = "Добавить";
+            this.btnClientAdd.UseVisualStyleBackColor = true;
+            this.btnClientAdd.Click += new System.EventHandler(this.btnClientAdd_Click);
+
+            this.btnClientUpdate.Location = new System.Drawing.Point(10, 80);
+            this.btnClientUpdate.Name = "btnClientUpdate";
+            this.btnClientUpdate.Size = new System.Drawing.Size(355, 40);
+            this.btnClientUpdate.TabIndex = 1;
+            this.btnClientUpdate.Text = "Изменить";
+            this.btnClientUpdate.UseVisualStyleBackColor = true;
+            this.btnClientUpdate.Click += new System.EventHandler(this.btnClientUpdate_Click);
+
+            this.btnClientDelete.Location = new System.Drawing.Point(10, 130);
+            this.btnClientDelete.Name = "btnClientDelete";
+            this.btnClientDelete.Size = new System.Drawing.Size(355, 40);
+            this.btnClientDelete.TabIndex = 2;
+            this.btnClientDelete.Text = "Удалить";
+            this.btnClientDelete.UseVisualStyleBackColor = true;
+            this.btnClientDelete.Click += new System.EventHandler(this.btnClientDelete_Click);
+
+            this.btnClientRefresh.Location = new System.Drawing.Point(10, 180);
+            this.btnClientRefresh.Name = "btnClientRefresh";
+            this.btnClientRefresh.Size = new System.Drawing.Size(170, 40);
+            this.btnClientRefresh.TabIndex = 3;
+            this.btnClientRefresh.Text = "Обновить";
+            this.btnClientRefresh.UseVisualStyleBackColor = true;
+            this.btnClientRefresh.Click += new System.EventHandler(this.btnClientRefresh_Click);
+
+            this.btnClientClear.Location = new System.Drawing.Point(195, 180);
+            this.btnClientClear.Name = "btnClientClear";
+            this.btnClientClear.Size = new System.Drawing.Size(170, 40);
+            this.btnClientClear.TabIndex = 4;
+            this.btnClientClear.Text = "Очистить";
+            this.btnClientClear.UseVisualStyleBackColor = true;
+            this.btnClientClear.Click += new System.EventHandler(this.btnClientClear_Click);
+
+            // ==================== CARS TAB ====================
+            this.tabCars.Controls.Add(this.dgvCars);
+            this.tabCars.Controls.Add(this.groupBoxCarDetails);
+            this.tabCars.Controls.Add(this.groupBoxCarOps);
+            this.tabCars.Controls.Add(this.groupBoxCarSearch);
+            this.tabCars.Location = new System.Drawing.Point(4, 28);
+            this.tabCars.Name = "tabCars";
+            this.tabCars.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCars.Size = new System.Drawing.Size(1142, 648);
+            this.tabCars.TabIndex = 1;
+            this.tabCars.Text = "Автомобили";
+            this.tabCars.UseVisualStyleBackColor = true;
+
+            // groupBoxCarSearch
+            this.groupBoxCarSearch.Controls.Add(this.lblCarSearch);
+            this.groupBoxCarSearch.Controls.Add(this.txtCarSearch);
+            this.groupBoxCarSearch.Location = new System.Drawing.Point(8, 8);
+            this.groupBoxCarSearch.Name = "groupBoxCarSearch";
+            this.groupBoxCarSearch.Size = new System.Drawing.Size(730, 50);
+            this.groupBoxCarSearch.TabIndex = 0;
+            this.groupBoxCarSearch.Text = "Поиск (по марке или номеру)";
+
+            this.lblCarSearch.AutoSize = true;
+            this.lblCarSearch.Location = new System.Drawing.Point(8, 20);
+            this.lblCarSearch.Name = "lblCarSearch";
+            this.lblCarSearch.Text = "Поиск:";
+
+            this.txtCarSearch.Location = new System.Drawing.Point(65, 17);
+            this.txtCarSearch.Name = "txtCarSearch";
+            this.txtCarSearch.Size = new System.Drawing.Size(650, 26);
+            this.txtCarSearch.TabIndex = 1;
+            this.txtCarSearch.TextChanged += new System.EventHandler(this.txtCarSearch_TextChanged);
+
+            // dgvCars
+            this.dgvCars.AllowUserToAddRows = false;
+            this.dgvCars.AllowUserToDeleteRows = false;
+            this.dgvCars.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCars.Location = new System.Drawing.Point(8, 65);
+            this.dgvCars.MultiSelect = false;
+            this.dgvCars.Name = "dgvCars";
+            this.dgvCars.ReadOnly = true;
+            this.dgvCars.RowHeadersWidth = 51;
+            this.dgvCars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCars.Size = new System.Drawing.Size(730, 570);
+            this.dgvCars.TabIndex = 1;
+            this.dgvCars.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCars_CellClick);
+
+            // groupBoxCarDetails
+            this.groupBoxCarDetails.Controls.Add(this.lblCarID);
+            this.groupBoxCarDetails.Controls.Add(this.txtCarID);
+            this.groupBoxCarDetails.Controls.Add(this.lblCarBrand);
+            this.groupBoxCarDetails.Controls.Add(this.txtCarBrand);
+            this.groupBoxCarDetails.Controls.Add(this.lblCarModel);
+            this.groupBoxCarDetails.Controls.Add(this.txtCarModel);
+            this.groupBoxCarDetails.Controls.Add(this.lblCarYear);
+            this.groupBoxCarDetails.Controls.Add(this.txtCarYear);
+            this.groupBoxCarDetails.Controls.Add(this.lblCarGosNumber);
+            this.groupBoxCarDetails.Controls.Add(this.txtCarGosNumber);
+            this.groupBoxCarDetails.Controls.Add(this.lblCarClient);
+            this.groupBoxCarDetails.Controls.Add(this.cmbCarClient);
+            this.groupBoxCarDetails.Location = new System.Drawing.Point(750, 8);
+            this.groupBoxCarDetails.Name = "groupBoxCarDetails";
+            this.groupBoxCarDetails.Size = new System.Drawing.Size(380, 370);
+            this.groupBoxCarDetails.TabIndex = 2;
+            this.groupBoxCarDetails.Text = "Данные автомобиля";
+
+            this.lblCarID.AutoSize = true;
+            this.lblCarID.Location = new System.Drawing.Point(10, 30);
+            this.lblCarID.Name = "lblCarID";
+            this.lblCarID.Text = "ID:";
+
+            this.txtCarID.Location = new System.Drawing.Point(130, 27);
+            this.txtCarID.Name = "txtCarID";
+            this.txtCarID.ReadOnly = true;
+            this.txtCarID.Size = new System.Drawing.Size(230, 26);
+            this.txtCarID.TabIndex = 0;
+
+            this.lblCarBrand.AutoSize = true;
+            this.lblCarBrand.Location = new System.Drawing.Point(10, 70);
+            this.lblCarBrand.Name = "lblCarBrand";
+            this.lblCarBrand.Text = "Марка:";
+
+            this.txtCarBrand.Location = new System.Drawing.Point(130, 67);
+            this.txtCarBrand.Name = "txtCarBrand";
+            this.txtCarBrand.Size = new System.Drawing.Size(230, 26);
+            this.txtCarBrand.TabIndex = 1;
+
+            this.lblCarModel.AutoSize = true;
+            this.lblCarModel.Location = new System.Drawing.Point(10, 110);
+            this.lblCarModel.Name = "lblCarModel";
+            this.lblCarModel.Text = "Модель:";
+
+            this.txtCarModel.Location = new System.Drawing.Point(130, 107);
+            this.txtCarModel.Name = "txtCarModel";
+            this.txtCarModel.Size = new System.Drawing.Size(230, 26);
+            this.txtCarModel.TabIndex = 2;
+
+            this.lblCarYear.AutoSize = true;
+            this.lblCarYear.Location = new System.Drawing.Point(10, 150);
+            this.lblCarYear.Name = "lblCarYear";
+            this.lblCarYear.Text = "Год выпуска:";
+
+            this.txtCarYear.Location = new System.Drawing.Point(130, 147);
+            this.txtCarYear.Name = "txtCarYear";
+            this.txtCarYear.Size = new System.Drawing.Size(230, 26);
+            this.txtCarYear.TabIndex = 3;
+
+            this.lblCarGosNumber.AutoSize = true;
+            this.lblCarGosNumber.Location = new System.Drawing.Point(10, 190);
+            this.lblCarGosNumber.Name = "lblCarGosNumber";
+            this.lblCarGosNumber.Text = "Гос. номер:";
+
+            this.txtCarGosNumber.Location = new System.Drawing.Point(130, 187);
+            this.txtCarGosNumber.Name = "txtCarGosNumber";
+            this.txtCarGosNumber.Size = new System.Drawing.Size(230, 26);
+            this.txtCarGosNumber.TabIndex = 4;
+
+            this.lblCarClient.AutoSize = true;
+            this.lblCarClient.Location = new System.Drawing.Point(10, 230);
+            this.lblCarClient.Name = "lblCarClient";
+            this.lblCarClient.Text = "Клиент:";
+
+            this.cmbCarClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCarClient.FormattingEnabled = true;
+            this.cmbCarClient.Location = new System.Drawing.Point(130, 227);
+            this.cmbCarClient.Name = "cmbCarClient";
+            this.cmbCarClient.Size = new System.Drawing.Size(230, 28);
+            this.cmbCarClient.TabIndex = 5;
+
+            // groupBoxCarOps
+            this.groupBoxCarOps.Controls.Add(this.btnCarAdd);
+            this.groupBoxCarOps.Controls.Add(this.btnCarUpdate);
+            this.groupBoxCarOps.Controls.Add(this.btnCarDelete);
+            this.groupBoxCarOps.Controls.Add(this.btnCarRefresh);
+            this.groupBoxCarOps.Controls.Add(this.btnCarClear);
+            this.groupBoxCarOps.Location = new System.Drawing.Point(750, 390);
+            this.groupBoxCarOps.Name = "groupBoxCarOps";
+            this.groupBoxCarOps.Size = new System.Drawing.Size(380, 245);
+            this.groupBoxCarOps.TabIndex = 3;
+            this.groupBoxCarOps.Text = "Операции";
+
+            this.btnCarAdd.Location = new System.Drawing.Point(10, 30);
+            this.btnCarAdd.Name = "btnCarAdd";
+            this.btnCarAdd.Size = new System.Drawing.Size(355, 40);
+            this.btnCarAdd.TabIndex = 0;
+            this.btnCarAdd.Text = "Добавить";
+            this.btnCarAdd.UseVisualStyleBackColor = true;
+            this.btnCarAdd.Click += new System.EventHandler(this.btnCarAdd_Click);
+
+            this.btnCarUpdate.Location = new System.Drawing.Point(10, 80);
+            this.btnCarUpdate.Name = "btnCarUpdate";
+            this.btnCarUpdate.Size = new System.Drawing.Size(355, 40);
+            this.btnCarUpdate.TabIndex = 1;
+            this.btnCarUpdate.Text = "Изменить";
+            this.btnCarUpdate.UseVisualStyleBackColor = true;
+            this.btnCarUpdate.Click += new System.EventHandler(this.btnCarUpdate_Click);
+
+            this.btnCarDelete.Location = new System.Drawing.Point(10, 130);
+            this.btnCarDelete.Name = "btnCarDelete";
+            this.btnCarDelete.Size = new System.Drawing.Size(355, 40);
+            this.btnCarDelete.TabIndex = 2;
+            this.btnCarDelete.Text = "Удалить";
+            this.btnCarDelete.UseVisualStyleBackColor = true;
+            this.btnCarDelete.Click += new System.EventHandler(this.btnCarDelete_Click);
+
+            this.btnCarRefresh.Location = new System.Drawing.Point(10, 185);
+            this.btnCarRefresh.Name = "btnCarRefresh";
+            this.btnCarRefresh.Size = new System.Drawing.Size(170, 40);
+            this.btnCarRefresh.TabIndex = 3;
+            this.btnCarRefresh.Text = "Обновить";
+            this.btnCarRefresh.UseVisualStyleBackColor = true;
+            this.btnCarRefresh.Click += new System.EventHandler(this.btnCarRefresh_Click);
+
+            this.btnCarClear.Location = new System.Drawing.Point(195, 185);
+            this.btnCarClear.Name = "btnCarClear";
+            this.btnCarClear.Size = new System.Drawing.Size(170, 40);
+            this.btnCarClear.TabIndex = 4;
+            this.btnCarClear.Text = "Очистить";
+            this.btnCarClear.UseVisualStyleBackColor = true;
+            this.btnCarClear.Click += new System.EventHandler(this.btnCarClear_Click);
+
+            // ==================== REPORTS TAB ====================
             this.tabReports.Controls.Add(this.groupBoxReportActions);
-            this.tabReports.Controls.Add(this.groupBoxReportFilters);
             this.tabReports.Controls.Add(this.reportViewer);
-            this.tabReports.Location = new System.Drawing.Point(4, 22);
+            this.tabReports.Location = new System.Drawing.Point(4, 28);
             this.tabReports.Name = "tabReports";
-            this.tabReports.Size = new System.Drawing.Size(992, 624);
-            this.tabReports.TabIndex = 3;
-            this.tabReports.Text = "Reports";
+            this.tabReports.Padding = new System.Windows.Forms.Padding(3);
+            this.tabReports.Size = new System.Drawing.Size(1142, 648);
+            this.tabReports.TabIndex = 2;
+            this.tabReports.Text = "Отчёт";
             this.tabReports.UseVisualStyleBackColor = true;
 
-            this.reportViewer.Location = new System.Drawing.Point(12, 100);
-            this.reportViewer.Name = "reportViewer";
-            this.reportViewer.Size = new System.Drawing.Size(968, 500);
-            this.reportViewer.TabIndex = 1;
+            // groupBoxReportActions
+            this.groupBoxReportActions.Controls.Add(this.btnGenerateReport);
+            this.groupBoxReportActions.Controls.Add(this.btnExportReport);
+            this.groupBoxReportActions.Location = new System.Drawing.Point(8, 8);
+            this.groupBoxReportActions.Name = "groupBoxReportActions";
+            this.groupBoxReportActions.Size = new System.Drawing.Size(1126, 60);
+            this.groupBoxReportActions.TabIndex = 0;
+            this.groupBoxReportActions.Text = "Действия";
 
-            this.groupBoxReportFilters.Controls.Add(this.btnGenerateReport);
-            this.groupBoxReportFilters.Controls.Add(this.cmbReportType);
-            this.groupBoxReportFilters.Controls.Add(this.label23);
-            this.groupBoxReportFilters.Location = new System.Drawing.Point(12, 15);
-            this.groupBoxReportFilters.Size = new System.Drawing.Size(600, 75);
-            this.groupBoxReportFilters.Text = "Report Filters";
-
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(15, 25);
-            this.label23.Size = new System.Drawing.Size(75, 13);
-            this.label23.Text = "Report Type:";
-            this.cmbReportType.FormattingEnabled = true;
-            this.cmbReportType.Items.AddRange(new object[] { "All Products", "Products by Category", "Products by Supplier", "Categories Summary", "Suppliers Summary" });
-            this.cmbReportType.Location = new System.Drawing.Point(120, 22);
-            this.cmbReportType.Name = "cmbReportType";
-            this.cmbReportType.Size = new System.Drawing.Size(300, 21);
-            this.cmbReportType.TabIndex = 1;
-
-            this.btnGenerateReport.Location = new System.Drawing.Point(450, 20);
-            this.btnGenerateReport.Size = new System.Drawing.Size(120, 30);
-            this.btnGenerateReport.Text = "Generate";
+            this.btnGenerateReport.Location = new System.Drawing.Point(10, 18);
+            this.btnGenerateReport.Name = "btnGenerateReport";
+            this.btnGenerateReport.Size = new System.Drawing.Size(200, 35);
+            this.btnGenerateReport.TabIndex = 0;
+            this.btnGenerateReport.Text = "Сформировать отчёт";
+            this.btnGenerateReport.UseVisualStyleBackColor = true;
             this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
 
-            this.groupBoxReportActions.Location = new System.Drawing.Point(650, 15);
-            this.groupBoxReportActions.Size = new System.Drawing.Size(330, 75);
-            this.groupBoxReportActions.Text = "Actions";
-
-            this.btnExportReport.Location = new System.Drawing.Point(15, 30);
-            this.btnExportReport.Size = new System.Drawing.Size(120, 30);
-            this.btnExportReport.Text = "Export";
+            this.btnExportReport.Location = new System.Drawing.Point(220, 18);
+            this.btnExportReport.Name = "btnExportReport";
+            this.btnExportReport.Size = new System.Drawing.Size(200, 35);
+            this.btnExportReport.TabIndex = 1;
+            this.btnExportReport.Text = "Экспортировать";
+            this.btnExportReport.UseVisualStyleBackColor = true;
             this.btnExportReport.Click += new System.EventHandler(this.btnExportReport_Click);
-            this.groupBoxReportActions.Controls.Add(this.btnExportReport);
 
-            // FORM1
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            // reportViewer
+            this.reportViewer.Location = new System.Drawing.Point(8, 75);
+            this.reportViewer.Name = "reportViewer";
+            this.reportViewer.Size = new System.Drawing.Size(1126, 560);
+            this.reportViewer.TabIndex = 1;
+
+            // ==================== FORM ====================
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 650);
+            this.ClientSize = new System.Drawing.Size(1150, 680);
             this.Controls.Add(this.tabControlMain);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "Form1";
-            this.Text = "Product Management System - Multi-Entity (3 Tables)";
+            this.Text = "Автосервис";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCategories)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSuppliers)).EndInit();
+
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCars)).EndInit();
             this.tabControlMain.ResumeLayout(false);
-            this.tabProducts.ResumeLayout(false);
-            this.tabCategories.ResumeLayout(false);
-            this.tabSuppliers.ResumeLayout(false);
+            this.tabClients.ResumeLayout(false);
+            this.tabCars.ResumeLayout(false);
             this.tabReports.ResumeLayout(false);
-            this.groupBoxProductDetails.ResumeLayout(false);
-            this.groupBoxProductDetails.PerformLayout();
-            this.groupBoxProductOps.ResumeLayout(false);
-            this.groupBoxProductFilter.ResumeLayout(false);
-            this.groupBoxProductFilter.PerformLayout();
-            this.groupBoxCategoryDetails.ResumeLayout(false);
-            this.groupBoxCategoryDetails.PerformLayout();
-            this.groupBoxCategoryOps.ResumeLayout(false);
-            this.groupBoxCategoryFilter.ResumeLayout(false);
-            this.groupBoxCategoryFilter.PerformLayout();
-            this.groupBoxSupplierDetails.ResumeLayout(false);
-            this.groupBoxSupplierDetails.PerformLayout();
-            this.groupBoxSupplierOps.ResumeLayout(false);
-            this.groupBoxSupplierFilter.ResumeLayout(false);
-            this.groupBoxSupplierFilter.PerformLayout();
-            this.groupBoxReportFilters.ResumeLayout(false);
-            this.groupBoxReportFilters.PerformLayout();
-            this.groupBoxReportActions.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
+        // TabControl
         private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabProducts;
-        private System.Windows.Forms.TabPage tabCategories;
-        private System.Windows.Forms.TabPage tabSuppliers;
-        private System.Windows.Forms.DataGridView dgvProducts;
-        private System.Windows.Forms.GroupBox groupBoxProductDetails;
-        private System.Windows.Forms.TextBox txtProductID;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtProductName;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbProductCategory;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cmbProductSupplier;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtProductPrice;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtProductQuantity;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtProductCreatedDate;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBoxProductOps;
-        private System.Windows.Forms.Button btnProductAdd;
-        private System.Windows.Forms.Button btnProductUpdate;
-        private System.Windows.Forms.Button btnProductDelete;
-        private System.Windows.Forms.Button btnProductRefresh;
-        private System.Windows.Forms.GroupBox groupBoxProductFilter;
-        private System.Windows.Forms.TextBox txtProductSearch;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridView dgvCategories;
-        private System.Windows.Forms.GroupBox groupBoxCategoryDetails;
-        private System.Windows.Forms.TextBox txtCategoryID;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox txtCategoryName;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox txtCategoryDesc;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtCategoryCreatedDate;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.GroupBox groupBoxCategoryOps;
-        private System.Windows.Forms.Button btnCategoryAdd;
-        private System.Windows.Forms.Button btnCategoryUpdate;
-        private System.Windows.Forms.Button btnCategoryDelete;
-        private System.Windows.Forms.Button btnCategoryRefresh;
-        private System.Windows.Forms.GroupBox groupBoxCategoryFilter;
-        private System.Windows.Forms.TextBox txtCategorySearch;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.DataGridView dgvSuppliers;
-        private System.Windows.Forms.GroupBox groupBoxSupplierDetails;
-        private System.Windows.Forms.TextBox txtSupplierID;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox txtSupplierName;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox txtSupplierContact;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox txtSupplierEmail;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox txtSupplierPhone;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox txtSupplierCreatedDate;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.GroupBox groupBoxSupplierOps;
-        private System.Windows.Forms.Button btnSupplierAdd;
-        private System.Windows.Forms.Button btnSupplierUpdate;
-        private System.Windows.Forms.Button btnSupplierDelete;
-        private System.Windows.Forms.Button btnSupplierRefresh;
-        private System.Windows.Forms.GroupBox groupBoxSupplierFilter;
-        private System.Windows.Forms.TextBox txtSupplierSearch;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TabPage tabClients;
+        private System.Windows.Forms.TabPage tabCars;
         private System.Windows.Forms.TabPage tabReports;
+
+        // Clients
+        private System.Windows.Forms.DataGridView dgvClients;
+        private System.Windows.Forms.GroupBox groupBoxClientDetails;
+        private System.Windows.Forms.Label lblClientID;
+        private System.Windows.Forms.TextBox txtClientID;
+        private System.Windows.Forms.Label lblClientSurname;
+        private System.Windows.Forms.TextBox txtClientSurname;
+        private System.Windows.Forms.Label lblClientName;
+        private System.Windows.Forms.TextBox txtClientName;
+        private System.Windows.Forms.Label lblClientPhone;
+        private System.Windows.Forms.TextBox txtClientPhone;
+        private System.Windows.Forms.Label lblClientAddress;
+        private System.Windows.Forms.TextBox txtClientAddress;
+        private System.Windows.Forms.GroupBox groupBoxClientOps;
+        private System.Windows.Forms.Button btnClientAdd;
+        private System.Windows.Forms.Button btnClientUpdate;
+        private System.Windows.Forms.Button btnClientDelete;
+        private System.Windows.Forms.Button btnClientRefresh;
+        private System.Windows.Forms.Button btnClientClear;
+        private System.Windows.Forms.GroupBox groupBoxClientSearch;
+        private System.Windows.Forms.Label lblClientSearch;
+        private System.Windows.Forms.TextBox txtClientSearch;
+
+        // Cars
+        private System.Windows.Forms.DataGridView dgvCars;
+        private System.Windows.Forms.GroupBox groupBoxCarDetails;
+        private System.Windows.Forms.Label lblCarID;
+        private System.Windows.Forms.TextBox txtCarID;
+        private System.Windows.Forms.Label lblCarBrand;
+        private System.Windows.Forms.TextBox txtCarBrand;
+        private System.Windows.Forms.Label lblCarModel;
+        private System.Windows.Forms.TextBox txtCarModel;
+        private System.Windows.Forms.Label lblCarYear;
+        private System.Windows.Forms.TextBox txtCarYear;
+        private System.Windows.Forms.Label lblCarGosNumber;
+        private System.Windows.Forms.TextBox txtCarGosNumber;
+        private System.Windows.Forms.Label lblCarClient;
+        private System.Windows.Forms.ComboBox cmbCarClient;
+        private System.Windows.Forms.GroupBox groupBoxCarOps;
+        private System.Windows.Forms.Button btnCarAdd;
+        private System.Windows.Forms.Button btnCarUpdate;
+        private System.Windows.Forms.Button btnCarDelete;
+        private System.Windows.Forms.Button btnCarRefresh;
+        private System.Windows.Forms.Button btnCarClear;
+        private System.Windows.Forms.GroupBox groupBoxCarSearch;
+        private System.Windows.Forms.Label lblCarSearch;
+        private System.Windows.Forms.TextBox txtCarSearch;
+
+        // Reports
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
-        private System.Windows.Forms.GroupBox groupBoxReportFilters;
-        private System.Windows.Forms.ComboBox cmbReportType;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button btnGenerateReport;
         private System.Windows.Forms.GroupBox groupBoxReportActions;
+        private System.Windows.Forms.Button btnGenerateReport;
         private System.Windows.Forms.Button btnExportReport;
     }
 }
